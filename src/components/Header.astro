@@ -1,0 +1,35 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Logo from "../images/logo-colorins.svg";
+---
+
+<div class="py-2 max-w-xl mx-auto">
+    <ul class="flex items-center justify-between lg:space-x-8">
+        <div>
+            <img src={Logo.src} alt="Logotipo colorins">
+        </div>
+        <div class="flex space-x-7">
+            <Navigation
+            href="src/pages/newborn.astro"
+            title="Recién nacida"
+            age="0 a 18 meses"
+            />
+            <Navigation
+            href="src/pages/babynina.astro"
+            title="Baby niña"
+            age="2 a 9 años"
+            />
+            <Navigation
+            href="src/pages/mininina.astro"
+            title="Mini niña"
+            age="2 a 9 años"
+            />
+            <Navigation
+            href="src/pages/juniornina.astro"
+            title="Junior niña"
+            age="8 a 16 años"
+            />
+        </div>
+    </ul>
+</div>
+
