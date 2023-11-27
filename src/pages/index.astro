@@ -3,30 +3,37 @@ import Layout from '../layouts/Layout.astro';
 import { contentfulClient } from "../lib/contentful";
 import type { Catalogue } from "../lib/contentful";
 
+
+
 const entries = await contentfulClient.getEntries<Catalogue>({
   content_type: "colorins",
 });
 
+
 const posts = entries.items.map((item) => {
-  const { category, title, color, tallas, price } = item.fields;
+  const { category, title, color, tallas, price, id, imagenes } = item.fields;
   return {
     category,
     title,
     color,
 	tallas,
-	price
+	price,
+	id,
+	imagenes,
+
   };
 });
 ---
 
 <Layout title="home" description="La mejor ropa para tu pequeño esta en colorins">
 	<main class="flex justify-center items-center h-[80vh]">
-		<h1>La mejor ropa solo en colorins</h1>
-		<ul>
+		<ul class="flex">
 			{posts.map((post) => (
 			  <li>
-				<a href={`/posts/${post.category}/`}>
-				  <h2>{post.title}</h2>
+				<a href={`/posts/${post.title}/`}>
+					<img class="w-20 h-50" src={post.imagenes[0].fields.file.url} alt={post.title} />
+					<h2>{post.category}</h2>
+					<h2>{post.title}</h2>
 				</a>
 				<p>{post.price}</p>
 			  </li>

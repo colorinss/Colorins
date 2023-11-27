@@ -3,13 +3,15 @@ import contentful, { EntryFieldTypes } from "contentful";
 export interface Catalogue {
     contentTypeId:"colorins",
     fields:{
-        category: EntryFieldTypes.Text
+        id: string
+        category: EntryFieldTypes.Text,
         tipoDePrenda: EntryFieldTypes.Text,
         title: EntryFieldTypes.Text,
         color: EntryFieldTypes.Text,
         tallas: EntryFieldTypes.Text,
         price: EntryFieldTypes.Number,
-        outlet: EntryFieldTypes.Number
+        outlet: EntryFieldTypes.Number,
+        imagenes: EntryFieldTypes.AssetLink
     }
 }
 
