@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   });
   
   const pages = entries.items.map((item) => ({
-    params: { tag: item.fields.category },
+    params: { tag: item.fields.title },
     props: {
       title: item.fields.title,
       category: item.fields.category,
