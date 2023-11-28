@@ -4,11 +4,11 @@ import type { Catalogue } from "../../lib/contentful";
 
 export async function getStaticPaths() {
   const entries = await contentfulClient.getEntries<Catalogue>({
-    content_type: "colorins",
-  });
+  content_type: "colorins",
+});
   
   const pages = entries.items.map((item) => ({
-    params: { tag: item.fields.slug },
+    params: { slug: item.fields.slug },
     props: {
       title: item.fields.title,
       category: item.fields.category,
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
   }));
   return pages;
   }
-
+  
   const { title, category, image, slug } = Astro.props;
 ---
 
@@ -30,9 +30,10 @@ export async function getStaticPaths() {
   <title>{title}</title>
 </head>
 <body>
-   <h3>{slug}</h3>
+  <div>
    <h1>{title}</h1>
    <h3>{category}</h3>
    <img src={image[0].fields.file.url} alt="Imagen de la prenda">
+  </div>
 </body>
 </html> 
