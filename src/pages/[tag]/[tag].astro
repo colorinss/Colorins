@@ -8,17 +8,18 @@ export async function getStaticPaths() {
   });
   
   const pages = entries.items.map((item) => ({
-    params: { tag: item.fields.title },
+    params: { tag: item.fields.slug },
     props: {
       title: item.fields.title,
       category: item.fields.category,
       image: item.fields.imagenes,
+      slug: item.fields.slug,
     },
   }));
   return pages;
   }
 
-  const { title, category, image } = Astro.props;
+  const { title, category, image, slug } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -29,6 +30,7 @@ export async function getStaticPaths() {
   <title>Document</title>
 </head>
 <body>
+  
    <h1>{title}</h1>
    <h3>{category}</h3>
    <img src={image[0].fields.file.url} alt="">

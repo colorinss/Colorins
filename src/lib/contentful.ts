@@ -11,7 +11,8 @@ export interface Catalogue {
         tallas: EntryFieldTypes.Text,
         price: EntryFieldTypes.Number,
         outlet: EntryFieldTypes.Number,
-        imagenes: EntryFieldTypes.AssetLink
+        imagenes: EntryFieldTypes.AssetLink,
+        slug: EntryFieldTypes.Text
     }
 }
 
