@@ -1,0 +1,36 @@
+---
+import { contentfulClient } from "../../lib/contentful";
+import type { Catalogue } from "../../lib/contentful";
+
+export async function getStaticPaths() {
+  const entries = await contentfulClient.getEntries<Catalogue>({
+    content_type: "colorins",
+  });
+  
+  const pages = entries.items.map((item) => ({
+    params: { slug: item.fields.title },
+    props: {
+      title: item.fields.title,
+      category: item.fields.category,
+      image: item.fields.imagenes,
+    },
+  }));
+  return pages;
+  }
+
+  const { title, category, image } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+   <h1>{title}</h1>
+   <h3>{category}</h3>
+   <img src={image[0].fields.file.url} alt="">
+</body>
+</html>
