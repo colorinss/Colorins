@@ -12,7 +12,6 @@ export interface Catalogue {
         price: EntryFieldTypes.Number,
         outlet: EntryFieldTypes.Number,
         imagenes: EntryFieldTypes.AssetLink,
-        slug: EntryFieldTypes.Text
     }
 }
 

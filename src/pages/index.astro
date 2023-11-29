@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { contentfulClient } from "../lib/contentful";
 import type { Catalogue } from "../lib/contentful";
+import slug from 'slug';
 
 
 
@@ -11,7 +12,7 @@ const entries = await contentfulClient.getEntries<Catalogue>({
 
 
 const posts = entries.items.map((item) => {
-  const { category, title, color, tallas, price, id, imagenes, slug } = item.fields;
+  const { category, title, color, tallas, price, id, imagenes } = item.fields;
   return {
     category,
     title,
@@ -20,7 +21,7 @@ const posts = entries.items.map((item) => {
 	price,
 	id,
 	imagenes,
-	slug,
+	slug: slug(title),
 
   };
 });
@@ -30,9 +31,9 @@ const posts = entries.items.map((item) => {
 	<main class="flex justify-center items-center h-[80vh]">
 		<ul class="flex">
 			{posts.map((post) => (
-			  <li>
+			  <li class="mx-2">
 				<a href={`/posts/${post.slug}/`}>
-					<img class="w-20 h-50" src={post.imagenes[0].fields.file.url} alt={post.title} />
+					<img class="w-20 h-50" src={post.imagenes[0].fields.file.url} alt={post.title}/>
 					<h2>{post.category}</h2>
 					<h2>{post.title}</h2>
 				</a>

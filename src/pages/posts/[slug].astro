@@ -1,6 +1,7 @@
 ---
 import { contentfulClient } from "../../lib/contentful";
 import type { Catalogue } from "../../lib/contentful";
+import slug from 'slug';
 
 export async function getStaticPaths() {
   const entries = await contentfulClient.getEntries<Catalogue>({
@@ -8,12 +9,12 @@ export async function getStaticPaths() {
 });
   
   const pages = entries.items.map((item) => ({
-    params: { slug: item.fields.slug },
+    params: { slug: slug(item.fields.title) },
     props: {
       title: item.fields.title,
       category: item.fields.category,
       image: item.fields.imagenes,
-      slug: item.fields.slug,
+      slug: slug(item.fields.title),
     },
   }));
   return pages;
@@ -33,7 +34,6 @@ export async function getStaticPaths() {
   <div>
    <h1>{title}</h1>
    <h3>{category}</h3>
-   <img src={image[0].fields.file.url} alt="Imagen de la prenda">
   </div>
 </body>
 </html> 
