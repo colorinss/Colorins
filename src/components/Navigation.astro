@@ -10,7 +10,7 @@ let navLinks = [
         imagen: [
             {
                 alt:"imagen de bebé",
-                src:"/navigation/new-born.png",
+                src:"src/images/navigation/new-born.png",
             }
         ],
         children: [
@@ -89,7 +89,10 @@ let navLinks = [
         display: none;
     }
     .btn:hover .content-dropdown{
-        display: block;
+        display: flex;
+        background: white;
+        border-radius: 5px;
+        border: 2px solid rgb(248 250 252);
     }
 </style>
 
@@ -115,11 +118,12 @@ let navLinks = [
                                         {item.age}
                                     </p>
                                 </a>
-                                {(
-                                    <ul class="content-dropdown absolute bg-black text-white">
+                                {(item.children && item.children.length > 0 ? (
+                                    <ul class="content-dropdown absolute p-4">
+                                        <div class="">
                                         {item.children.map(
                                             (chil) => (
-                                                <div class="flex">
+                                                <div class="mr-8 ml-4">
                                                     <li class="my-2">
                                                         <a href={chil.href}>
                                                             <h2>{chil.title}</h2>
@@ -128,13 +132,14 @@ let navLinks = [
                                                 </div>
                                             ),
                                         )}
+                                        </div>
                                         {item.imagen && item.imagen.map((image) => (
                                         <div>
-                                            <img src={image.src} alt={image.alt}>
+                                            <img class="rounded-xl" src={image.src} alt={image.alt}>
                                         </div>
                                         ))}
                                     </ul>
-                                )}
+                                ):null)}
                             </li>
                         ))}
                     </ul>
