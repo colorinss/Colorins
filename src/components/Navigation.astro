@@ -1,23 +1,145 @@
 ---
-let navLinks = {
-    href: "",
-    title: "",
-    age: "",
-};
+import Logo from "../images/logo-colorins.svg";
+import newBron from "../images/Navigation/new-born.png";
 
-const { href, title, age } = Astro.props;
-
+let navLinks = [
+    {
+        href: "/newborn",
+        title: "Recién nacida",
+        age: "0 a 18 meses",
+        imagen: [
+            {
+                alt:"imagen de bebé",
+                src:"src/images/navigation/new-born.png",
+            }
+        ],
+        children: [
+            {
+                title: "Abrigos y Chamarras",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Suéter y sudaderas",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Toreras",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Blusas",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Playeras y Polos",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Vestidos",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Pantalones y Faldas",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Conjuntos",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+        ],
+    },
+    {
+        href: "/babynina",
+        title: "Baby niña",
+        age: "2 a 9 años",
+        children: [
+            {
+                title: "Faldas",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+            {
+                title: "Tenis",
+                href: "/tdr-newborn/abrigos-newborn",
+            },
+        ],
+    },
+    {
+        href: "/mininina",
+        title: "Mini niña",
+        age: "2 a 9 años",
+        children: [],
+    },
+    {
+        href: "/juniornina",
+        title: "Junior niña",
+        age: "8 a 16 años",
+        children: [],
+    },
+    {
+        href: "/juniornina",
+        title: "Junior niño",
+        age: "8 a 16 años",
+        children: [],
+    },
+];
 ---
 
-<div>
-    <li>
-        <a href={href} class="flex flex-col items-center justify-center">
-            <h2 class="text-base">
-                {title}
-            </h2>
-            <p class="text-gray-500 text-sm">
-                {age}
-            </p>
-        </a>
-    </li>
+<style>
+    .content-dropdown{
+        display: none;
+    }
+    .btn:hover .content-dropdown{
+        display: block;
+    }
+</style>
+
+<div class="py-2 flex items-center justify-center">
+    <ul class="flex items-center lg:space-x-8">
+        <div>
+            <a href="/">
+                <img src={Logo.src} alt="Logotipo colorins" />
+            </a>
+        </div>
+        <div class="dropbtn">
+            {
+                (
+                    <ul class="flex">
+                        {navLinks.map((item) => (
+                            <li class="btn mx-4">
+                                <a
+                                    href={item.href}
+                                    class="btn flex flex-col items-center justify-center relative"
+                                >
+                                    <h2 class="text-base">{item.title}</h2>
+                                    <p class="text-gray-500 text-sm">
+                                        {item.age}
+                                    </p>
+                                </a>
+                                {(
+                                    <ul class="content-dropdown absolute bg-black text-white">
+                                        {item.children.map(
+                                            (chil) => (
+                                                <div class="flex">
+                                                    <li class="my-2">
+                                                        <a href={chil.href}>
+                                                            <h2>{chil.title}</h2>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            ),
+                                        )}
+                                        {item.imagen && item.imagen.map((image) => (
+                                        <div>
+                                            <img src={image.src} alt={image.alt}>
+                                        </div>
+                                        ))}
+                                    </ul>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                )
+            }
+        </div>
+    </ul>
 </div>
