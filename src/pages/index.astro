@@ -1,46 +1,118 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 import { contentfulClient } from "../lib/contentful";
 import type { Catalogue } from "../lib/contentful";
-import slug from 'slug';
-
-
+import slug from "slug";
+import portada from "../images/home/portada.jpg";
+import '@fontsource/abril-fatface';
 
 const entries = await contentfulClient.getEntries<Catalogue>({
-  content_type: "colorins",
+	content_type: "colorins",
 });
 
 
 const posts = entries.items.map((item) => {
-  const { category, title, color, tallas, price, id, imagenes } = item.fields;
-  return {
-    category,
-    title,
-    color,
-	tallas,
-	price,
-	id,
-	imagenes,
-	slug: slug(title),
-
-  };
+	const { category, title, color, tallas, price, id, imagenes } = item.fields;
+	return {
+		category,
+		title,
+		color,
+		tallas,
+		price,
+		id,
+		imagenes,
+		slug: slug(title),
+	};
 });
 ---
+<style define:vars={{ portada: `url("${portada.src}")`}}>
 
-<Layout title="home" description="La mejor ropa para tu pequeño esta en colorins">
-	<main class="flex justify-center items-center h-[80vh]">
-		<ul class="flex">
-			{posts.map((post) => (
-			  <li class="mx-2">
-				<a href={`/posts/${post.slug}/`}>
-					<img class="w-20 h-50" src={post.imagenes[0].fields.file.url} alt={post.title}/>
-					<h2>{post.category}</h2>
-					<h2>{post.title}</h2>
-				</a>
-				<p>{post.price}</p>
-			  </li>
-			))}
-		  </ul>
-	</main>
+.portada{
+    background-image: var(--portada);
+    background-repeat: no-repeat;
+    background-size: cover;
+	height: 70vh;
+}
+.primavera{
+	color: rgb(250 204 21);
+	animation: cambioColor 6s infinite;
+}
+
+@keyframes cambioColor {
+    0% {
+      color: rgb(250 204 21); /* Color inicial */
+    }
+    50% {
+      color:  rgb(187 247 208); /* Color intermedio */
+    }
+    100% {
+      color: rgb(251 207 232); /* Color final */
+    }
+
+}
+</style>
+
+<Layout>
+    <main class= "portada flex justify-center items-center">
+		<div class="">
+			<h2 class="esencia text-white text-5xl lg:text-7xl text-center lg:w-1/2 mx-auto">La esencia de la <span class="primavera font-extrabold">primavera</span> en cada prenda.</h2>
+		</div>
+    </main>
+	<div class="my-5">
+		<h3 class="text-3xl text-center">Los favoritos de la temporada</h3>
+		<div>
+			<div>
+				<div>
+					<a href="">
+						<img src="" alt="">
+						<div>
+						<h3></h3>
+						</div>
+					</a>
+				</div>
+				<div>
+					<a href="">
+						<img src="" alt="">
+						<div>
+						<h3></h3>
+						</div>
+					</a>
+				</div>
+				<div>
+					<a href="">
+						<img src="" alt="">
+						<div>
+						<h3></h3>
+						</div>
+					</a>
+				</div>
+				<div>
+					<a href="">
+						<img src="" alt="">
+						<div>
+						<h3></h3>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+    <ul class="flex">
+		{
+			posts.map((post) => (
+				<li class="mx-2">
+					<a href={`/posts/${post.slug}/`}>
+						<img
+							class="w-20 h-50"
+							src={post.imagenes[0].fields.file.url}
+							alt={post.title}
+						/>
+						<h2>{post.category}</h2>
+						<h2>{post.title}</h2>
+					</a>
+					<p>{post.price}</p>
+				</li>
+			))
+		}
+	</ul>
 </Layout>
-
