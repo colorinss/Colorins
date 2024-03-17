@@ -3,13 +3,19 @@ import Layout from "../layouts/Layout.astro";
 import { contentfulClient } from "../lib/contentful";
 import type { Catalogue } from "../lib/contentful";
 import slug from "slug";
-import portada from "../images/home/portada.jpg";
-import '@fontsource/abril-fatface';
+import portada from "../images/home/portada.avif";
+import faldaFav from "../images/home/falda-fav.avif";
+import vestidoFav from "../images/home/vestido-fav.avif";
+import polotFav from "../images/home/polo-fav.avif";
+import bermudaFav from "../images/home/bermuda-fav.avif";
+import gifBasics from "../images/home/ropa-nino-basics.webp";
+import gifEstampado from "../images/home/ropa-bebe.webp";
+import imageEstampado from "../images/home/ropa-bebe-estampada.webp";
+import "@fontsource/abril-fatface";
 
 const entries = await contentfulClient.getEntries<Catalogue>({
 	content_type: "colorins",
 });
-
 
 const posts = entries.items.map((item) => {
 	const { category, title, color, tallas, price, id, imagenes } = item.fields;
@@ -25,95 +31,184 @@ const posts = entries.items.map((item) => {
 	};
 });
 ---
-<style define:vars={{ portada: `url("${portada.src}")`}}>
 
-.portada{
-    background-image: var(--portada);
-    background-repeat: no-repeat;
-    background-size: cover;
-	background-position: center;
-	height: 70vh;
-}
-.primavera{
-	color: rgb(250 204 21);
-	animation: cambioColor 6s infinite;
-}
+<style define:vars={{ portada: `url("${portada.src}")` }}>
+	.portada {
+		position: relative;
+		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.5)),
+			var(--portada);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+		height: 70vh;
+	}
 
-@keyframes cambioColor {
-    0% {
-      color: rgb(250 204 21); /* Color inicial */
-    }
-    50% {
-      color:  rgb(187 247 208); /* Color intermedio */
-    }
-    100% {
-      color: rgb(251 207 232); /* Color final */
-    }
-
-}
+	.portada h2 {
+		position: relative;
+		z-index: 1;
+	}
 </style>
 
 <Layout>
-    <main class= "portada flex justify-center items-center">
+	<main class="portada flex justify-center items-end">
 		<div class="">
-			<h2 class="esencia text-white text-5xl lg:text-7xl text-center lg:w-1/2 mx-auto">La esencia de la <span class="primavera font-extrabold">primavera</span> en cada prenda.</h2>
+			<h2
+				class="esencia text-white md:px-20 text-5xl lg:text-6xl text-center lg:w-8/12 mx-auto mb-4"
+			>
+				La esencia de la <span class="text-teal-400 font-extrabold"
+					>primavera</span
+				> en cada prenda.
+			</h2>
+			<a class="flex justify-center" href="">
+				<button
+					class="text-white bg-gradient-to-r from-teal-400 to-teal-500 to-bg-emerald-500 px-6 py-2 rounded-full mt-5 mb-10 mx-auto border border-teal-300 hover:border-teal-100"
+				>
+					Vestidos mini niña &rarr;
+				</button>
+			</a>
 		</div>
-    </main>
-	<div class="my-5">
-		<h3 class="text-3xl text-center">Los favoritos de la temporada</h3>
-		<div>
-			<div>
-				<div>
-					<a href="">
-						<img src="" alt="">
-						<div>
-						<h3></h3>
-						</div>
-					</a>
-				</div>
-				<div>
-					<a href="">
-						<img src="" alt="">
-						<div>
-						<h3></h3>
-						</div>
-					</a>
-				</div>
-				<div>
-					<a href="">
-						<img src="" alt="">
-						<div>
-						<h3></h3>
-						</div>
-					</a>
-				</div>
-				<div>
-					<a href="">
-						<img src="" alt="">
-						<div>
-						<h3></h3>
-						</div>
-					</a>
+	</main>
+	<section>
+		<div class="max-w-screen-xl mx-auto my-10">
+			<h3 class="text-3xl font-medium text-center mb-5">
+				Los favoritos de la temporada
+			</h3>
+			<div
+				class="overflow-x-scroll snap-x snap-mandatory lg:overflow-auto lg:snap-none"
+			>
+				<div
+					class="flex space-x-4 w-[400vw] sm:w-[300vw] md:w-[200vw] mx-4 lg:w-auto"
+				>
+					<div class="snap-center">
+						<a href="">
+							<img class="rounded" src={faldaFav.src} alt="" />
+							<div class="mt-4">
+								<h3 class="text-xl font-medium">
+									Faldas junior niña
+								</h3>
+								<p class="text-gray-500">
+									Faldas ligeras y colores vibrantes.
+								</p>
+							</div>
+						</a>
+					</div>
+					<div class="snap-center">
+						<a href="">
+							<img class="rounded" src={vestidoFav.src} alt="" />
+							<div class="mt-4">
+								<h3 class="text-xl font-medium">
+									Vestidos mini niña
+								</h3>
+								<p class="text-gray-500">
+									Vestidos frescos y florales.
+								</p>
+							</div>
+						</a>
+					</div>
+					<div class="snap-center">
+						<a href="">
+							<img class="rounded" src={polotFav.src} alt="" />
+							<div class="mt-4">
+								<h3 class="text-xl font-medium">
+									Polos junior niño
+								</h3>
+								<p class="text-gray-500">
+									Comodidad y sofisticación.
+								</p>
+							</div>
+						</a>
+					</div>
+					<div class="snap-center">
+						<a href="">
+							<img class="rounded" src={bermudaFav.src} alt="" />
+							<div class="mt-4">
+								<h3 class="text-xl font-medium">
+									Bermudas mini niño
+								</h3>
+								<p class="text-gray-500">
+									Para outfits versátiles y frescos.
+								</p>
+							</div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-    <ul class="flex">
-		{
-			posts.map((post) => (
-				<li class="mx-2">
-					<a href={`/posts/${post.slug}/`}>
-						<img
-							class="w-20 h-50"
-							src={post.imagenes[0].fields.file.url}
-							alt={post.title}
-						/>
-						<h2>{post.category}</h2>
-						<h2>{post.title}</h2>
-					</a>
-					<p>{post.price}</p>
-				</li>
-			))
-		}
-	</ul>
+	</section>
+	<section>
+		<div class="max-w-screen-xl lg:mx-auto mx-2">
+			<img
+				class="w-full my-10 object-cover h-96 rounded-md"
+				src={gifBasics.src}
+				alt=""
+			/>
+		</div>
+	</section>
+	<section>
+		<div class="max-w-screen-xl mx-auto">
+			<p class="text-2xl my-6 mx-2">Encuetra los mejores outfits</p>
+			<div class="overflow-x-scroll span-x span-mandatory">
+				<div class="w-[600vw] lg:w-[140vw]">
+					<ul class="flex">
+						{
+							posts.slice(0, 10).map((post) => (
+								<li class="mx-2 snap-center w-10/12 ">
+									<a href={`/posts/${post.slug}/`}>
+										<img
+											class="rounded-md max-w-full"
+											src={post.imagenes[0].fields.file.url}
+											alt={post.title}
+										/>
+										<div class="my-2 max-w-full">
+											<h2 class="font-normal">
+												{post.title}
+											</h2>
+											<div class="text-gray-500">
+												<div class="flex space-x-1">
+													<p>$</p>
+													<p class="">{post.price}</p>
+													<p>mxn</p>
+													<p>&rarr;</p>
+												</div>
+												<p class="capitalize text-xs">
+													{post.category}
+												</p>
+											</div>
+										</div>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+			
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="max-w-screen-xl mx-auto my-10">
+			<div
+				class="flex space-y-4 flex-col md:space-y-0 md:space-x-4 md:flex md:flex-row mx-2"
+			>
+				<div class="relative ">
+					<img class="rounded-md" src={imageEstampado.src} alt="" />
+					<div class="absolute bottom-0 left-0 p-3 md:p-5 text-white">
+						<h3 class="text-4xl  lg:pr-46">Nuestras prendas más divertidas</h3>
+						<p>Baby niño</p>
+						<button class="mt-10 hover:text-purple-200">
+							<a href="">
+								Ver todo &rarr;
+							</a>
+						</button>
+					</div>
+				</div>
+				<div>
+					<img class="rounded-md" src={gifEstampado.src} alt="" />
+				</div>
+			</div>
+		</div>
+	</section>
 </Layout>
