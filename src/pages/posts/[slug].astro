@@ -1,40 +1,124 @@
 ---
 import { contentfulClient } from "../../lib/contentful";
 import type { Catalogue } from "../../lib/contentful";
-import slug from 'slug';
+import slug from "slug";
+import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
   const entries = await contentfulClient.getEntries<Catalogue>({
-  content_type: "colorins",
-});
-  
+    content_type: "colorins",
+  });
+
   const pages = entries.items.map((item) => ({
     params: { slug: slug(item.fields.title) },
     props: {
       title: item.fields.title,
       category: item.fields.category,
+      price: item.fields.price,
+      color: item.fields.color,
       image: item.fields.imagenes,
+      talla: item.fields.tallas,
       slug: slug(item.fields.title),
-      
     },
   }));
   return pages;
-  }
-  
-  const { title, category, image, slug } = Astro.props;
+}
+
+const { title, price, talla, color, category, image, slug } = Astro.props;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-</head>
-<body>
-  <div>
-   <h1>{title}</h1>
-   <h3>{category}</h3>
-  </div>
-</body>
-</html> 
+<style>
+  .marron {
+    accent-color: rgb(154 52 18);
+    width: 25px;
+    height: 25px;
+    margin-top: 5px;
+  }
+
+  .naranja {
+    accent-color: rgb(249 115 22);
+    width: 25px;
+    height: 25px;
+    margin-top: 5px;
+  }
+</style>
+<Layout>
+  <section class="max-w-screen-xl mx-auto my-10">
+    <div class="flex">
+      <div class="basis-1/2">
+        {
+          image && image.length > 0 && image[0].fields && (
+            <img class="rounded " src={image[0].fields.file.url} alt="" />
+          )
+        }
+      </div>
+      <div class="basis-1/2 px-10 py-10">
+        <h1 class="text-4xl font-normal">{title}</h1>
+        <h3 class="capitalize">{category}</h3>
+        <div class="price flex font-semibold mt-5">
+          <p>$</p>
+          <p>{price}</p>
+          <p>mxn</p>
+        </div>
+        <form id="miFormulario" action="">
+          <div>
+            <input
+              type="radio"
+              class={color}
+              aria-label={color}
+              value={color}
+              checked
+            />
+          </div>
+          <div>
+            <select value={talla} name="tallas" id="tallas" class="">
+              {
+                talla &&
+                  talla.length > 0 &&
+                  talla.map((opcion) => (
+                    <option value={opcion}>{opcion}</option>
+                  ))
+              }
+            </select>
+          </div>
+          <button type="button" id="btnForm"
+            >Enviar a WhatsApp</button
+          >
+        </form>
+        <script>
+          window.addEventListener("load", function(){
+          function enviarWhatsapp() {
+            // Seleccionamos el formulario por su ID
+            var formulario = document.querySelector("#miFormulario");
+          
+            // Validamos que el elemento seleccionado sea un formulario
+            if (!formulario || !(formulario instanceof HTMLFormElement)) {
+              console.error("El elemento seleccionado no es un formulario válido.");
+              return;
+            }
+          
+            // Obtenemos los datos del formulario
+            var formData = new FormData(formulario);
+            var mensaje = "Me interesa esta prenda"
+            var urlActual = window.location.href;
+            var numeroWhatsapp = "+525572188346";  // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
+          
+            // Construimos el enlace de WhatsApp con el mensaje y el enlace de la página actual
+            var enlaceWhatsapp =
+              "https://wa.me/" +
+              numeroWhatsapp +
+              "?text=" +
+              encodeURIComponent(mensaje + "\n" + urlActual);
+          
+            // Redirigimos a WhatsApp
+            window.location.href = enlaceWhatsapp;
+          }
+
+          const btn = document.getElementById("btnForm")
+          btn.addEventListener("click", enviarWhatsapp);
+        })
+          </script>
+      </div>
+    </div>
+  </section>
+</Layout>

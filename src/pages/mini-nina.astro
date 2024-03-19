@@ -1,0 +1,139 @@
+---
+import Layout from "../layouts/Layout.astro";
+import portada from "../images/junior-nina/portada-junior-nina.webp";
+import { contentfulClient } from "../lib/contentful";
+import type { Catalogue } from "../lib/contentful";
+import slug from "slug";
+import Filters from "../components/filter.astro";
+
+const entries = await contentfulClient.getEntries < Catalogue > ({
+    content_type: "colorins",
+    "fields.category": "mini niña"
+
+});
+
+const posts = entries.items.map((item) => {
+    const { category, title, color, tallas, price, id, imagenes } = item.fields;
+    return {
+        category,
+        title,
+        color,
+        tallas,
+        price,
+        id,
+        imagenes,
+        slug: slug(title),
+    };
+});
+---
+
+<style define:vars={{ portada: `url("${portada.src}")` }}>
+    .portada {
+        background-image: var(--portada);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 6px;
+        height: 50vh;
+    }
+</style>
+
+<Layout>
+    <main
+        class="portada max-w-screen-2xl mx-auto flex justify-center items-center"
+    >
+        <h2 class="text-white text-4xl font-semibold lg:text-8xl">
+            Junior niña
+        </h2>
+    </main>
+    <div>
+        <Filters />
+    </div>
+    <div class="max-w-screen-2xl mx-auto">
+        <div class="mx-auto">
+            <ul
+                id="lista"
+                class="flex flex-wrap justify-start mx-0"
+                style="overflow-x: hidden;"
+            >
+                {
+                    posts.map((post) => (
+                        <li class="my-3 snap-center w-1/2 md:w-1/3 lg:w-1/6 px-2">
+                            <a href={`/posts/${post.slug}/`}>
+                                <img
+                                    class="rounded-md max-w-full"
+                                    src={post.imagenes[0].fields.file.url}
+                                    alt={post.title}
+                                />
+                                <div class="my-2 max-w-full">
+                                    <h2 class="font-normal">{post.title}</h2>
+                                    <div class="text-gray-500">
+                                        <div class="flex space-x-1">
+                                            <p>$</p>
+                                            <p class="">{post.price}</p>
+                                            <p>mxn</p>
+                                            <p>&rarr;</p>
+                                        </div>
+                                        <p class="capitalize text-xs">
+                                            {post.category}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="flex justify-center pb-20">
+            <button
+                id="boton"
+                class="px-12 bg-yellow-400 py-2 rounded-full text-white hover:bg-yellow-300 transition-all delay-100"
+                >Ver más</button
+            >
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const lista = document.getElementById("lista") as HTMLElement | null;
+                const boton = document.getElementById("boton") as HTMLButtonElement | null; 
+                
+                let visibleCount = 10; // Inicialmente mostrar 10 elementos
+
+                // Función para cargar más elementos
+
+                const handleLoadMore = () => {
+                    // Agregar 10 elementos más al contador
+                    visibleCount += 10;
+                    // Renderizar los elementos actualizados
+                    render();
+                };
+
+                // Función para renderizar los elementos
+                const render = () => {
+                    // Mostrar solo los primeros 'visibleCount' elementos
+                    const lis = lista.querySelectorAll("li");
+                    lis.forEach((li, index) => {
+                        if (index < visibleCount) {
+                            li.style.display = "block";
+                        } else {
+                            li.style.display = "none";
+                        }
+                    });
+
+                    if (visibleCount >= lis.length) {
+                        boton.style.display = "none";
+                    } else {
+                        boton.style.display = "block";
+                    }
+                    // Mostrar botón "Ver más" solo si hay más elementos para cargar
+                };
+
+                // Agregar evento de clic al botón
+                boton.addEventListener("click", handleLoadMore);
+
+                // Llamar a la función render inicialmente
+                render();
+            });
+        </script>
+    </div>
+</Layout>

@@ -35,13 +35,13 @@ const posts = entries.items.map((item) => {
 <style define:vars={{ portada: `url("${portada.src}")` }}>
 	.portada {
 		position: relative;
-		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.5)),
+		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.3)),
 			var(--portada);
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;
 		height: 70vh;
-	}
+	} 
 
 	.portada h2 {
 		position: relative;
@@ -69,7 +69,7 @@ const posts = entries.items.map((item) => {
 		</div>
 	</main>
 	<section>
-		<div class="max-w-screen-xl mx-auto my-10">
+		<div class="max-w-screen-2xl mx-auto my-10">
 			<h3 class="text-3xl font-medium text-center mb-5">
 				Los favoritos de la temporada
 			</h3>
@@ -136,16 +136,16 @@ const posts = entries.items.map((item) => {
 		</div>
 	</section>
 	<section>
-		<div class="max-w-screen-xl lg:mx-auto mx-2">
+		<div class="max-w-screen-2xl lg:mx-auto mx-2">
 			<img
-				class="w-full my-10 object-cover h-96 rounded-md"
+				class="w-full h-auto my-10 object-cover rounded-md"
 				src={gifBasics.src}
 				alt=""
 			/>
 		</div>
 	</section>
 	<section>
-		<div class="max-w-screen-xl mx-auto">
+		<div class="max-w-screen-2xl mx-auto">
 			<p class="text-2xl my-6 mx-2">Encuetra los mejores outfits</p>
 			<div class="overflow-x-scroll span-x span-mandatory">
 				<div class="w-[600vw] lg:w-[140vw]">
@@ -189,7 +189,7 @@ const posts = entries.items.map((item) => {
 		</div>
 	</section>
 	<section>
-		<div class="max-w-screen-xl mx-auto my-10">
+		<div class="max-w-screen-2xl mx-auto my-10">
 			<div
 				class="flex space-y-4 flex-col md:space-y-0 md:space-x-4 md:flex md:flex-row mx-2"
 			>
