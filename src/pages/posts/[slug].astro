@@ -67,11 +67,12 @@ const { title, price, talla, color, category, image, slug } = Astro.props;
               class={color}
               aria-label={color}
               value={color}
+              id="color"
               checked
             />
           </div>
           <div>
-            <select value={talla} name="tallas" id="tallas" class="">
+            <select value={talla} name="tallas" id="tallas" class="w-3/4 p-4 border border-gray-300 rounded text-gray-700">
               {
                 talla &&
                   talla.length > 0 &&
@@ -81,43 +82,49 @@ const { title, price, talla, color, category, image, slug } = Astro.props;
               }
             </select>
           </div>
-          <button type="button" id="btnForm"
-            >Enviar a WhatsApp</button
-          >
+          <button type="button" id="btnForm">Comprar ahora por WhatsApp</button>
         </form>
         <script>
-          window.addEventListener("load", function(){
-          function enviarWhatsapp() {
-            // Seleccionamos el formulario por su ID
-            var formulario = document.querySelector("#miFormulario");
-          
-            // Validamos que el elemento seleccionado sea un formulario
-            if (!formulario || !(formulario instanceof HTMLFormElement)) {
-              console.error("El elemento seleccionado no es un formulario válido.");
-              return;
-            }
-          
-            // Obtenemos los datos del formulario
-            var formData = new FormData(formulario);
-            var mensaje = "Me interesa esta prenda"
-            var urlActual = window.location.href;
-            var numeroWhatsapp = "+525572188346";  // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
-          
-            // Construimos el enlace de WhatsApp con el mensaje y el enlace de la página actual
-            var enlaceWhatsapp =
-              "https://wa.me/" +
-              numeroWhatsapp +
-              "?text=" +
-              encodeURIComponent(mensaje + "\n" + urlActual);
-          
-            // Redirigimos a WhatsApp
-            window.location.href = enlaceWhatsapp;
-          }
+          window.addEventListener("load", function () {
+            function enviarWhatsapp() {
+              // Seleccionamos el formulario por su ID
+              const formulario = document.querySelector("#miFormulario");
 
-          const btn = document.getElementById("btnForm")
-          btn.addEventListener("click", enviarWhatsapp);
-        })
-          </script>
+              // Validamos que el elemento seleccionado sea un formulario
+              if (!formulario || !(formulario instanceof HTMLFormElement)) {
+                console.error(
+                  "El elemento seleccionado no es un formulario válido.",
+                );
+                return;
+              }
+
+              // Obtenemos los datos del formulario
+              const formData = new FormData(formulario);
+              const colorElement = document.getElementById(
+                "color"
+              ) as HTMLInputElement; 
+              const colorValue = colorElement.value;
+              const tallaElement = document.getElementById("tallas") as HTMLSelectElement;
+              const tallaValue = tallaElement.value;
+              const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}`;
+              const urlActual = window.location.href;
+              const numeroWhatsapp = "+525572188346"; // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
+
+              // Construimos el enlace de WhatsApp con el mensaje y el enlace de la página actual
+              var enlaceWhatsapp =
+                "https://wa.me/" +
+                numeroWhatsapp +
+                "?text=" +
+                encodeURIComponent(mensaje + "\n" + urlActual);
+
+              // Redirigimos a WhatsApp
+              window.location.href = enlaceWhatsapp;
+            }
+
+            const btn = document.getElementById("btnForm");
+            btn.addEventListener("click", enviarWhatsapp);
+          });
+        </script>
       </div>
     </div>
   </section>
