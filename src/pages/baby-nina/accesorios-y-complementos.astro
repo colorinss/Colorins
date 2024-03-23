@@ -1,18 +1,26 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import portada from "../images/baby-nina/portada.webp";
-import { contentfulClient } from "../lib/contentful";
-import type { Catalogue } from "../lib/contentful";
+import Layout from "../../layouts/Layout.astro";
+import { contentfulClient } from "../../lib/contentful";
+import type { Catalogue } from "../../lib/contentful";
 import slug from "slug";
 
-const entries = await contentfulClient.getEntries < Catalogue > ({
+const entries = await contentfulClient.getEntries<Catalogue>({
     content_type: "colorins",
-    "fields.category": "baby niña"
-
+    "fields.category": "baby niña",
+    "fields.tipoDePrenda": "accesorios y complementos",
 });
 
 const posts = entries.items.map((item) => {
-    const { category, title, color, tallas, price, id, imagenes } = item.fields;
+    const {
+        category,
+        title,
+        color,
+        tallas,
+        price,
+        id,
+        imagenes,
+        tipoDePrenda,
+    } = item.fields;
     return {
         category,
         title,
@@ -21,22 +29,49 @@ const posts = entries.items.map((item) => {
         price,
         id,
         imagenes,
+        tipoDePrenda,
         slug: slug(`${item.fields.category}-${item.fields.title}`),
     };
 });
+
+const categoria = posts
+    .map(
+        (post) =>
+            Array.isArray(post.category) // Verificar si es un arreglo
+                ? post.category
+                      .map((cat) =>
+                          cat
+                              .replace(/\s+/g, "-")
+                              .normalize("NFD")
+                              .replace(/[\u0300-\u036f]/g, "")
+                              .toLowerCase(),
+                      )
+                      .join("-")
+                : "", // Si no es un arreglo, devolver una cadena vacía
+    )
+    .join("-");
+
+const tipoDePrendas = posts
+    .map(
+        (post) =>
+            Array.isArray(post.tipoDePrenda) // Verificar si es un arreglo
+                ? post.tipoDePrenda
+                      .map((prenda) =>
+                          prenda
+                              .replace(/\s+/g, "-")
+                              .normalize("NFD")
+                              .replace(/[\u0300-\u036f]/g, "")
+                              .toLowerCase(),
+                      )
+                      .join("-")
+                : "", // Si no es un arreglo, devolver una cadena vacía
+    )
+    .join("-");
 ---
 
-<style define:vars={{ portada: `url("${portada.src}")` }}>
-    .portada {
-        background-image: var(--portada);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        border-radius: 6px;
-        height: 50vh;
-    }
+<style define:vars="">
     #filters {
-        width: calc(179px * 12);
+        width: calc(178px * 12);
     }
 </style>
 
@@ -44,9 +79,46 @@ const posts = entries.items.map((item) => {
     <main
         class="portada max-w-screen-2xl mx-auto flex justify-center items-center"
     >
-        <h2 class="text-white text-4xl font-semibold lg:text-8xl">
-            Baby niña
-        </h2>
+        {
+            posts.map((post) => (
+                <div class="flex flex-col justify-center items-center">
+                    <div>
+                        <div class="mx-auto mb-2 mt-10">
+                            <ul class="flex space-x-2 justify-center text-sm mb-2 text-gray-400">
+                                <li>
+                                    <a class="hover:text-gray-500" href="/">
+                                        Inicio
+                                    </a>
+                                </li>
+                                <li>/</li>
+                                <li>
+                                    <a
+                                        class="hover:text-gray-500"
+                                        href={`/${categoria}`}
+                                    >
+                                        {categoria}
+                                    </a>
+                                </li>
+                                <li>/</li>
+                                <li>
+                                    <a
+                                        class="hover:text-gray-500"
+                                        href={`/${categoria}/${tipoDePrendas}`}
+                                    >
+                                        {tipoDePrendas}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-medium lg:text-4xl  text-center mt-4 lg:mt-0 capitalize pb-6">
+                            {post.tipoDePrenda}
+                        </h2>
+                    </div>
+                </div>
+            ))
+        }
     </main>
     <section>
         <div class="max-w-screen-2xl mx-auto">
@@ -156,9 +228,13 @@ const posts = entries.items.map((item) => {
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const lista = document.getElementById("lista") as HTMLElement | null;
-                const boton = document.getElementById("boton") as HTMLButtonElement | null; 
-                
+                const lista = document.getElementById(
+                    "lista",
+                ) as HTMLElement | null;
+                const boton = document.getElementById(
+                    "boton",
+                ) as HTMLButtonElement | null;
+
                 let visibleCount = 10; // Inicialmente mostrar 10 elementos
 
                 // Función para cargar más elementos
@@ -172,26 +248,31 @@ const posts = entries.items.map((item) => {
 
                 // Función para renderizar los elementos
                 const render = () => {
-                    // Mostrar solo los primeros 'visibleCount' elementos
-                    const lis = lista.querySelectorAll("li");
-                    lis.forEach((li, index) => {
-                        if (index < visibleCount) {
-                            li.style.display = "block";
-                        } else {
-                            li.style.display = "none";
-                        }
-                    });
+                    // Verificar si lista y boton son nulos antes de acceder a sus propiedades
+                    if (lista && boton) {
+                        // Mostrar solo los primeros 'visibleCount' elementos
+                        const lis = lista.querySelectorAll("li");
+                        lis.forEach((li, index) => {
+                            if (index < visibleCount) {
+                                li.style.display = "block";
+                            } else {
+                                li.style.display = "none";
+                            }
+                        });
 
-                    if (visibleCount >= lis.length) {
-                        boton.style.display = "none";
-                    } else {
-                        boton.style.display = "block";
+                        if (visibleCount >= lis.length) {
+                            boton.style.display = "none";
+                        } else {
+                            boton.style.display = "block";
+                        }
                     }
                     // Mostrar botón "Ver más" solo si hay más elementos para cargar
                 };
 
                 // Agregar evento de clic al botón
-                boton.addEventListener("click", handleLoadMore);
+                if (boton) {
+                    boton.addEventListener("click", handleLoadMore);
+                }
 
                 // Llamar a la función render inicialmente
                 render();

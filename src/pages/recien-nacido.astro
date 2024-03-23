@@ -4,12 +4,10 @@ import portada from "../images/recien-nacido/portada.webp";
 import { contentfulClient } from "../lib/contentful";
 import type { Catalogue } from "../lib/contentful";
 import slug from "slug";
-import Filters from "../components/filter.astro";
 
-const entries = await contentfulClient.getEntries < Catalogue > ({
+const entries = await contentfulClient.getEntries<Catalogue>({
     content_type: "colorins",
-    "fields.category": "recien nacido"
-
+    "fields.category": "recien nacido",
 });
 
 const posts = entries.items.map((item) => {
@@ -36,6 +34,9 @@ const posts = entries.items.map((item) => {
         border-radius: 6px;
         height: 50vh;
     }
+    #filters {
+        width: calc(178px * 12);
+    }
 </style>
 
 <Layout>
@@ -46,9 +47,91 @@ const posts = entries.items.map((item) => {
             Recién nacido
         </h2>
     </main>
-    <div>
-        <Filters />
-    </div>
+    <section>
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="overflow-x-scroll snap-x snap-mandatory py-4">
+                <ul class="flex space-x-4 mx-2" id="filters">
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/abrigos-y-chamarras">
+                            <p>Abrigos y chamarras</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/accesorios-y-complementos">
+                            <p>Accesorios y complementos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/bodies-y-playeras">
+                            <p>Bodies y playeras</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/camisas-y-blusas">
+                            <p>Camisas y blusas</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/conjuntos">
+                            <p>Conjuntos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/pantalones-y-petos">
+                            <p>Pantalones y petos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/pants">
+                            <p>Pants</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/polos">
+                            <p>Polos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/sueteres-y-sudaderas">
+                            <p>Suéteres y sudaderas</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/recien-nacido/trajes-de-bano">
+                            <p>Trajes de baño</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-orange-400 text-orange-400 px-6 py-2 hover:border-orange-600 hover:text-orange-600"
+                    >
+                        <a href="/recien-nacido/promciones">
+                            <p>🔥 Promociones</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
     <div class="max-w-screen-2xl mx-auto">
         <div class="mx-auto">
             <ul
@@ -94,9 +177,13 @@ const posts = entries.items.map((item) => {
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const lista = document.getElementById("lista") as HTMLElement | null;
-                const boton = document.getElementById("boton") as HTMLButtonElement | null; 
-                
+                const lista = document.getElementById(
+                    "lista",
+                ) as HTMLElement | null;
+                const boton = document.getElementById(
+                    "boton",
+                ) as HTMLButtonElement | null;
+
                 let visibleCount = 10; // Inicialmente mostrar 10 elementos
 
                 // Función para cargar más elementos

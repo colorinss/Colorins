@@ -25,11 +25,13 @@ export async function getStaticPaths() {
     },
   }));
   return pages;
+
+
 }
 
 const { title, price, talla, color, category, image, slug, tipoDePrenda } =
   Astro.props;
-const categoria = category
+  const categoria = category
   .map((cat) =>
     cat
       .replace(/\s+/g, "-")
@@ -47,6 +49,8 @@ const tipoDePrendas = tipoDePrenda
       .toLowerCase(),
   )
   .join("-");
+
+console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
 ---
 
 <style define:vars={{ shape: `url("${shape.src}")` }}>
@@ -373,9 +377,14 @@ const tipoDePrendas = tipoDePrenda
         <ul class="flex space-x-2 text-sm mb-2 text-gray-400">
           <li><a class="hover:text-gray-500" href="/">Inicio</a></li>
           <li>/</li>
-          <li><a class="hover:text-gray-500" href={`/${categoria}`}>{category}</a></li>
+          <li>
+            <a class="hover:text-gray-500" href={`/${categoria}`}>{category}</a>
+          </li>
           <li>/</li>
-          <li><a class="hover:text-gray-500" href={`/${tipoDePrendas}`}>{tipoDePrenda}</a></li>
+          <li>
+            <a class="hover:text-gray-500" href={`/${tipoDePrendas}`}
+              >{tipoDePrenda}</a>
+          </li>
         </ul>
       </div>
       <div class="basis-1/2">
@@ -395,9 +404,15 @@ const tipoDePrendas = tipoDePrenda
             <ul class="flex space-x-2 text-sm mb-2 text-gray-400">
               <li><a class="hover:text-gray-500" href="/">Inicio</a></li>
               <li>/</li>
-              <li><a class="hover:text-gray-500" href={`/${categoria}`}>{category}</a></li>
+              <li>
+                <a class="hover:text-gray-500" href={`/${categoria}`}
+                  >{category}</a>
+              </li>
               <li>/</li>
-              <li><a class="hover:text-gray-500" href={`/${tipoDePrendas}`}>{tipoDePrenda}</a></li>
+              <li>
+                <a class="hover:text-gray-500" href={`/${tipoDePrendas}`}
+                  >{tipoDePrenda}</a>
+              </li>
             </ul>
           </div>
           <h1 class="text-2xl md:text-3xl lg:text-4xl font-normal">{title}</h1>
@@ -536,18 +551,24 @@ const tipoDePrendas = tipoDePrenda
     </div>
   </section>
   <section class="py-6 relative h-[40vh] overflow-hidden">
-    <div class="absolute inset-0 bottom-0 z-10 flex flex-col justify-center items-center">
-    <!-- Este div es para la animación -->
     <div
-      class="content-container flex flex-col lg:flex lg:flex-row"
+      class="absolute inset-0 bottom-0 z-10 flex flex-col justify-center items-center"
     >
-      <h3 class="text-white/90 text-2xl md:text-4xl text-center">Descubre las mejores promociones</h3>
-      <a href={`/${categoria}-promociones`} class="bg-violet-100 rounded-full px-4 mx-8 lg:mx-4 lg:my-auto py-2 text-center my-2 text-indigo-900 hover:ring-indigo-100 hover:ring-1 hover:backdrop-blur">Ir a las promociones</a>
+      <!-- Este div es para la animación -->
+      <div class="content-container flex flex-col lg:flex lg:flex-row">
+        <h3 class="text-white/90 text-2xl md:text-4xl text-center">
+          Descubre las mejores promociones
+        </h3>
+        <a
+          href={`/${categoria}-promociones`}
+          class="bg-violet-100 rounded-full px-4 mx-8 lg:mx-4 lg:my-auto py-2 text-center my-2 text-indigo-900 hover:ring-indigo-100 hover:ring-1 hover:backdrop-blur"
+          >Ir a las promociones</a
+        >
+      </div>
     </div>
-  </div>
-  <div class="shape w-[200%] h-[35vh] flex items-center justify-center">
-    <div></div>
-  </div>
+    <div class="shape w-[200%] h-[35vh] flex items-center justify-center">
+      <div></div>
+    </div>
   </section>
   <section>
     <Posts />
