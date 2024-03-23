@@ -4,6 +4,7 @@ import type { Catalogue } from "../../lib/contentful";
 import slug from "slug";
 import Layout from "../../layouts/Layout.astro";
 import Posts from "../../components/posts.astro";
+import shape from "../../images/detail/form.png";
 
 export async function getStaticPaths() {
   const entries = await contentfulClient.getEntries<Catalogue>({
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
   });
 
   const pages = entries.items.map((item) => ({
-    params: { slug: slug(item.fields.title) },
+    params: { slug: slug(`${item.fields.category}-${item.fields.title}`) },
     props: {
       title: item.fields.title,
       category: item.fields.category,
@@ -19,88 +20,364 @@ export async function getStaticPaths() {
       color: item.fields.color,
       image: item.fields.imagenes,
       talla: item.fields.tallas,
-      slug: slug(item.fields.title),
+      tipoDePrenda: item.fields.tipoDePrenda,
+      slug: slug(`${item.fields.category}-${item.fields.title}`),
     },
   }));
   return pages;
 }
 
-const { title, price, talla, color, category, image, slug } = Astro.props;
+const { title, price, talla, color, category, image, slug, tipoDePrenda } =
+  Astro.props;
+const categoria = category
+  .map((cat) =>
+    cat
+      .replace(/\s+/g, "-")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase(),
+  )
+  .join("-");
+const tipoDePrendas = tipoDePrenda
+  .map((cat) =>
+    cat
+      .replace(/\s+/g, "-")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase(),
+  )
+  .join("-");
 ---
 
-<style>
+<style define:vars={{ shape: `url("${shape.src}")` }}>
+  label {
+    margin-left: 0; /* Establecer margen izquierdo a 0 */
+  }
   .marron {
-    accent-color: rgb(154 52 18);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxmarron {
+    position: absolute;
+  }
+  .marron::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(154, 52, 18);
+    border-radius: 50%;
+  }
+
+  input[type="checkbox"]:checked + .marron::before {
+    border-radius: 50%;
+    background-color: rgb(154, 52, 18);
+  }
+
+  input[type="checkbox"] {
+    opacity: 0;
   }
 
   .naranja {
-    accent-color: rgb(249 115 22);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
   }
 
+  .checkboxnaranja {
+    position: absolute;
+  }
+  .naranja::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(253, 143, 0);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .naranja::before {
+    border-radius: 50%;
+    background-color: rgb(253, 143, 0);
+  }
   .azul {
-    accent-color: rgb(186 230 253);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxazul {
+    position: absolute;
+  }
+  .azul::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(33, 163, 255);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .azul::before {
+    border-radius: 50%;
+    background-color: rgb(33, 163, 255);
   }
   .negro {
-    accent-color: rgb(0 0 0);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxnegro {
+    position: absolute;
+  }
+  .negro::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(0, 0, 0);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .negro::before {
+    border-radius: 50%;
+    background-color: rgb(0, 0, 0);
   }
   .blanco {
-    accent-color: rgb(255, 255, 255);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxblanco {
+    position: absolute;
+  }
+  .blanco::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(225, 225, 225);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .blanco::before {
+    border-radius: 50%;
+    background-color: rgb(225, 225, 225);
   }
   .verde {
-    accent-color: rgb(52 211 153);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxverde {
+    position: absolute;
+  }
+  .verde::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(88, 197, 93);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .verde::before {
+    border-radius: 50%;
+    background-color: rgb(88, 197, 93);
   }
   .amarillo {
-    accent-color: rgb(250 204 21);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxamarillo {
+    position: absolute;
+  }
+  .amarillo::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(253, 207, 21);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .amarillo::before {
+    border-radius: 50%;
+    background-color: rgb(253, 207, 21);
   }
   .marino {
-    accent-color: rgb(8 47 73);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxmarino {
+    position: absolute;
+  }
+  .marino::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(0, 0, 128);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .marino::before {
+    border-radius: 50%;
+    background-color: rgb(0, 0, 128);
   }
   .beige {
-    accent-color: rgb(255 237 213);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxbeige {
+    position: absolute;
+  }
+  .beige::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(207, 185, 151);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .beige::before {
+    border-radius: 50%;
+    background-color: rgb(207, 185, 151);
   }
   .rojo {
-    accent-color: rgb(239 68 68);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxrojo {
+    position: absolute;
+  }
+  .rojo::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(221, 48, 48);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .rojo::before {
+    border-radius: 50%;
+    background-color: rgb(221, 48, 48);
   }
   .gris {
-    accent-color: rgb(209 213 219);
-    width: 25px;
-    height: 25px;
-    margin-top: 5px;
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxgris {
+    position: absolute;
+  }
+  .gris::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px gray;
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .gris::before {
+    border-radius: 50%;
+    background-color: gray;
+  }
+
+  .item {
+    width: calc(
+      var(--base-width, 100%) * var(--num-images, 1)
+    ); /* Multiplica el ancho base por el número de imágenes */
+  }
+  .shape {
+    background-image: var(--shape);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    animation: slide 55s ease-in-out infinite;
+  }
+  @keyframes slide {
+    0% {
+      transform: translateX(
+        0
+      ); /* Comienza con un desplazamiento horizontal de 0 */
+    }
+    50% {
+      transform: translateX(
+        -50%
+      ); /* Termina con un desplazamiento horizontal del 50% del ancho */
+    }
+    100% {
+      transform: translateX(
+        0
+      ); /* Termina con un desplazamiento horizontal del 50% del ancho */
+    }
   }
 </style>
 <Layout>
   <section class="max-w-screen-xl mx-auto my-10">
-    <div class="flex flex-col md:flex md:flex-row">
+    <div class="flex flex-col lg:flex lg:flex-row">
+      <div class="block lg:hidden mx-auto mb-2">
+        <ul class="flex space-x-2 text-sm mb-2 text-gray-400">
+          <li><a class="hover:text-gray-500" href="/">Inicio</a></li>
+          <li>/</li>
+          <li><a class="hover:text-gray-500" href={`/${categoria}`}>{category}</a></li>
+          <li>/</li>
+          <li><a class="hover:text-gray-500" href={`/${tipoDePrendas}`}>{tipoDePrenda}</a></li>
+        </ul>
+      </div>
       <div class="basis-1/2">
         {
           image && image.length > 0 && image[0].fields && (
@@ -112,93 +389,167 @@ const { title, price, talla, color, category, image, slug } = Astro.props;
           )
         }
       </div>
-      <div class="basis-1/2 px-4 md:px-10 pt-10">
-        <h1 class="text-4xl font-normal">{title}</h1>
-        <h3 class="capitalize">{category}</h3>
-        <div class="price flex font-semibold mt-5">
-          <p>$</p>
-          <p>{price}</p>
-          <p>mxn</p>
-        </div>
-        <form id="miFormulario" action="">
-          <div>
-            <input
-              type="radio"
-              class={color}
-              aria-label={color}
-              value={color}
-              id="color"
-              checked
-            />
+      <div class="basis-1/2 flex flex-col justify-between">
+        <div class="px-4 md:px-10 mt-2">
+          <div class="hidden lg:block">
+            <ul class="flex space-x-2 text-sm mb-2 text-gray-400">
+              <li><a class="hover:text-gray-500" href="/">Inicio</a></li>
+              <li>/</li>
+              <li><a class="hover:text-gray-500" href={`/${categoria}`}>{category}</a></li>
+              <li>/</li>
+              <li><a class="hover:text-gray-500" href={`/${tipoDePrendas}`}>{tipoDePrenda}</a></li>
+            </ul>
           </div>
-          <div class="mt-5">
-            <select
-              value={talla}
-              name="tallas"
-              id="tallas"
-              class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent appearance-none border-0 border-y-2 border-gray-200 dark:text-gray-400 focus:outline-none focus:ring-0 focus:border-gray-200 peer lg:w-5/6"
-            >
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-normal">{title}</h1>
+          <h3 class="capitalize">{category}</h3>
+          <div class="price flex font-semibold mt-5">
+            <p>$</p>
+            <p>{price}</p>
+            <p>mxn</p>
+          </div>
+          <form id="miFormulario" action="">
+            <div class="flex justify-start">
               {
-                talla &&
-                  talla.length > 0 &&
-                  talla.map((opcion) => (
-                    <option value={opcion} class="bg-white">
-                      {opcion}
-                    </option>
+                color.map((colorItem, index) => (
+                  <>
+                    <input
+                      type="checkbox"
+                      value={colorItem}
+                      id={"id" + colorItem}
+                      name="color"
+                      class={"checkbox" + colorItem}
+                      checked={index === 0 ? index : false}
+                    />
+                    <label for={"id" + colorItem} class={colorItem} />
+                  </>
+                ))
+              }
+            </div>
+            <div class="mt-5">
+              <select
+                value={talla}
+                name="tallas"
+                id="tallas"
+                class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent appearance-none border-0 border-y-2 border-gray-200 dark:text-gray-400 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                {
+                  talla &&
+                    talla.length > 0 &&
+                    talla.map((opcion) => (
+                      <option value={opcion} class="bg-white">
+                        {opcion}
+                      </option>
+                    ))
+                }
+              </select>
+            </div>
+            <button
+              class="px-4 py-4 mt-4 mb-4 lg:mb-1 bg-gray-100 text-gray-500 rounded hover:ring-1 hover:ring-gray-200 transition-all delay-100 w-full"
+              type="button"
+              id="btnForm">Comprar ahora por WhatsApp</button
+            >
+          </form>
+          <script>
+            window.addEventListener("load", function () {
+              const btnForm = document.getElementById("btnForm");
+
+              function enviarWhatsapp() {
+                // Obtenemos los datos del formulario
+                const checkboxes = document.querySelectorAll<HTMLInputElement>(
+                  'input[type="checkbox"]',
+                );
+                let colorValue = "";
+
+                checkboxes.forEach((checkbox) => {
+                  if (checkbox.checked) {
+                    colorValue = checkbox.value;
+                  }
+                });
+
+                const tallaElement = document.getElementById(
+                  "tallas",
+                ) as HTMLSelectElement;
+                const tallaValue = tallaElement ? tallaElement.value : "";
+
+                // Construimos el mensaje de WhatsApp con los datos del formulario
+                const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}`;
+
+                // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
+                const numeroWhatsapp = "+525572188346";
+
+                // Construimos el enlace de WhatsApp con el mensaje
+                const enlaceWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
+
+                // Redirigimos a WhatsApp
+                window.location.href = enlaceWhatsapp;
+              }
+
+              btnForm.addEventListener("click", enviarWhatsapp);
+
+              function handleCheckboxChange(event: Event) {
+                // Obtiene todos los checkboxes
+                const checkboxes = document.querySelectorAll<HTMLInputElement>(
+                  'input[type="checkbox"]',
+                );
+
+                // Deselecciona todos los checkboxes excepto el actual
+                checkboxes.forEach((checkbox) => {
+                  if (checkbox !== event.target) {
+                    checkbox.checked = false; // Deselecciona el checkbox si no es el actual
+                  }
+                });
+              }
+
+              // Agrega el event listener a cada checkbox
+              const checkboxes = document.querySelectorAll<HTMLInputElement>(
+                'input[type="checkbox"]',
+              );
+              checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener("click", handleCheckboxChange);
+              });
+            });
+          </script>
+        </div>
+        <div class="flex px-4 md:px-10">
+          <div class="overflow-x-scroll snap-x snap-mandatory">
+            <div class="w-[150%] flex space-x-3">
+              {
+                image &&
+                  image.length > 0 &&
+                  image.slice(1).map((imageItem, index) => (
+                    <div
+                      class="snap-center item"
+                      style={`--num-images: ${image.length}`}
+                    >
+                      <img
+                        class="rounded mx-auto"
+                        src={imageItem.fields.file.url}
+                        alt=""
+                      />
+                    </div>
                   ))
               }
-            </select>
+            </div>
           </div>
-          <button
-            class="px-4 py-4 mt-4 bg-gray-100 text-gray-500 rounded hover:ring-1 hover:ring-gray-200 transition-all delay-100 w-full md:w-1/2"
-            type="button"
-            id="btnForm">Comprar ahora por WhatsApp</button
-          >
-        </form>
-        <script>
-          window.addEventListener("load", function () {
-            const btnForm = document.getElementById("btnForm");
-            function enviarWhatsapp() {
-              // Seleccionamos el formulario por su ID
-              const formulario = document.querySelector("#miFormulario");
-
-              // Validamos que el elemento seleccionado sea un formulario
-              if (!formulario || !(formulario instanceof HTMLFormElement)) {
-                console.error(
-                  "El elemento seleccionado no es un formulario válido.",
-                );
-                return;
-              }
-
-              // Obtenemos los datos del formulario
-              const formData = new FormData(formulario);
-              const colorElement = document.getElementById(
-                "color",
-              ) as HTMLInputElement;
-              const colorValue = colorElement.value;
-              const tallaElement = document.getElementById(
-                "tallas",
-              ) as HTMLSelectElement;
-              const tallaValue = tallaElement.value;
-              const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}`;
-              const urlActual = window.location.href;
-              const numeroWhatsapp = "+525572188346"; // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
-
-              // Construimos el enlace de WhatsApp con el mensaje y el enlace de la página actual
-              const enlaceWhatsapp =
-                "https://wa.me/" +
-                numeroWhatsapp +
-                "?text=" +
-                encodeURIComponent(mensaje + "\n" + urlActual);
-
-              // Redirigimos a WhatsApp
-              window.location.href = enlaceWhatsapp;
-            }
-            btnForm.addEventListener("click", enviarWhatsapp);
-          });
-        </script>
+        </div>
       </div>
     </div>
   </section>
-  <Posts />
+  <section class="py-6 relative h-[40vh] overflow-hidden">
+    <div class="absolute inset-0 bottom-0 z-10 flex flex-col justify-center items-center">
+    <!-- Este div es para la animación -->
+    <div
+      class="content-container flex flex-col lg:flex lg:flex-row"
+    >
+      <h3 class="text-white/90 text-2xl md:text-4xl text-center">Descubre las mejores promociones</h3>
+      <a href={`/${categoria}-promociones`} class="bg-violet-100 rounded-full px-4 mx-8 lg:mx-4 lg:my-auto py-2 text-center my-2 text-indigo-900 hover:ring-indigo-100 hover:ring-1 hover:backdrop-blur">Ir a las promociones</a>
+    </div>
+  </div>
+  <div class="shape w-[200%] h-[35vh] flex items-center justify-center">
+    <div></div>
+  </div>
+  </section>
+  <section>
+    <Posts />
+  </section>
 </Layout>

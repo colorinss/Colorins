@@ -11,6 +11,7 @@ import bermudaFav from "../images/home/bermuda-fav.avif";
 import gifBasics from "../images/home/ropa-nino-basics.webp";
 import gifEstampado from "../images/home/ropa-bebe.webp";
 import imageEstampado from "../images/home/ropa-bebe-estampada.webp";
+import shape from '../images/detail/form.png'
 import "@fontsource/abril-fatface";
 
 const entries = await contentfulClient.getEntries<Catalogue>({
@@ -27,12 +28,16 @@ const posts = entries.items.map((item) => {
 		price,
 		id,
 		imagenes,
-		slug: slug(title),
+		slug: slug(`${item.fields.category}-${item.fields.title}`),
 	};
 });
+
+
 ---
 
-<style define:vars={{ portada: `url("${portada.src}")` }}>
+<style define:vars={{ portada: `url("${portada.src}")`,
+shape: `url("${shape.src}")`
+}}>
 	.portada {
 		position: relative;
 		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.3)),
@@ -41,19 +46,43 @@ const posts = entries.items.map((item) => {
 		background-size: cover;
 		background-position: center;
 		height: 70vh;
-	} 
+	}
 
 	.portada h2 {
 		position: relative;
 		z-index: 1;
 	}
+	.shape {
+    background-image: var(--shape);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    animation: slide 55s ease-in-out infinite;
+  }
+  @keyframes slide {
+    0% {
+      transform: translateX(
+        0
+      ); /* Comienza con un desplazamiento horizontal de 0 */
+    }
+    50% {
+      transform: translateX(
+        -50%
+      ); /* Termina con un desplazamiento horizontal del 50% del ancho */
+    }
+    100% {
+      transform: translateX(
+        0
+      ); /* Termina con un desplazamiento horizontal del 50% del ancho */
+    }
+  }
 </style>
 
 <Layout>
 	<main class="portada flex justify-center items-end">
 		<div class="">
 			<h2
-				class="esencia text-white md:px-20 text-5xl lg:text-6xl text-center lg:w-8/12 mx-auto mb-4"
+				class="esencia text-white md:px-20 text-3xl md:text-5xl lg:text-6xl text-center lg:w-8/12 mx-auto mb-4"
 			>
 				La esencia de la <span class="text-teal-400 font-extrabold"
 					>primavera</span
@@ -138,28 +167,32 @@ const posts = entries.items.map((item) => {
 	<section>
 		<div class="max-w-screen-2xl lg:mx-auto mx-2">
 			<img
-				class="w-full h-auto my-10 object-cover rounded-md"
+				class="w-full h-72 md:h-auto my-10 object-cover rounded-md"
 				src={gifBasics.src}
 				alt=""
 			/>
 		</div>
 	</section>
-	<section>
+	<section class="bg-gradient-to-b from-transparent">
 		<div class="max-w-screen-2xl mx-auto">
-			<p class="text-2xl my-6 mx-2">Encuetra los mejores outfits</p>
+			<p class="text-3xl font-medium text-center mb-3">
+				Encuetra los mejores outfits
+			</p>
 			<div class="overflow-x-scroll span-x span-mandatory">
-				<div class="w-[600vw] lg:w-[140vw]">
+				<div class="w-[600vw] lg:w-[240vw]">
 					<ul class="flex">
 						{
 							posts.slice(0, 10).map((post) => (
-								<li class="mx-2 snap-center w-10/12 ">
+								<li class="mx-2 snap-center w-5/6 backdrop-blur-xl rounded-lg  relative  my-8">
 									<a href={`/posts/${post.slug}/`}>
 										<img
-											class="rounded-md max-w-full"
-											src={post.imagenes[0].fields.file.url}
+											class="rounded-lg max-w-full"
+											src={
+												post.imagenes[0].fields.file.url
+											}
 											alt={post.title}
 										/>
-										<div class="my-2 max-w-full">
+										<div class="my-2 max-w-full py-2">
 											<h2 class="font-normal">
 												{post.title}
 											</h2>
@@ -182,26 +215,22 @@ const posts = entries.items.map((item) => {
 					</ul>
 				</div>
 			</div>
-			
-					</ul>
-				</div>
-			</div>
 		</div>
 	</section>
-	<section>
+	<section class="">
 		<div class="max-w-screen-2xl mx-auto my-10">
 			<div
 				class="flex space-y-4 flex-col md:space-y-0 md:space-x-4 md:flex md:flex-row mx-2"
 			>
-				<div class="relative ">
+				<div class="relative">
 					<img class="rounded-md" src={imageEstampado.src} alt="" />
 					<div class="absolute bottom-0 left-0 p-3 md:p-5 text-white">
-						<h3 class="text-4xl  lg:pr-46">Nuestras prendas más divertidas</h3>
+						<h3 class="text-4xl lg:pr-46">
+							Nuestras prendas más divertidas
+						</h3>
 						<p>Baby niño</p>
 						<button class="mt-10 hover:text-purple-200">
-							<a href="">
-								Ver todo &rarr;
-							</a>
+							<a href=""> Ver todo &rarr; </a>
 						</button>
 					</div>
 				</div>
@@ -209,6 +238,26 @@ const posts = entries.items.map((item) => {
 					<img class="rounded-md" src={gifEstampado.src} alt="" />
 				</div>
 			</div>
+		</div>
+	</section>
+	<section class="py-6 relative h-[40vh] overflow-hidden">
+		<div
+			class="absolute inset-0 bottom-0 z-10 flex flex-col justify-center items-center"
+		>
+			<!-- Este div es para la animación -->
+			<div class="content-container flex flex-col lg:flex lg:flex-row">
+				<h3 class="text-white/90 text-2xl md:text-4xl text-center">
+					Descubre las mejores promociones de junior niño
+				</h3>
+				<a
+					href={`/junior-nino-promociones`}
+					class="bg-violet-100 rounded-full px-4 mx-8 lg:mx-4 lg:my-auto py-2 text-center my-2 text-indigo-900 hover:ring-indigo-100 hover:ring-1 hover:backdrop-blur"
+					>Ir a las promociones</a
+				>
+			</div>
+		</div>
+		<div class="shape w-[200%] h-[35vh] flex items-center justify-center">
+			<div></div>
 		</div>
 	</section>
 </Layout>

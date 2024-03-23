@@ -22,7 +22,7 @@ const posts = entries.items.map((item) => {
         price,
         id,
         imagenes,
-        slug: slug(title),
+        slug: slug(`${item.fields.category}-${item.fields.title}`),
     };
 });
 ---

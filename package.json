@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/alpinejs": "^0.3.1",
+    "@astrojs/react": "^3.1.0",
     "@astrojs/tailwind": "^5.0.3",
     "@contentful/rich-text-html-renderer": "^16.3.0",
     "@fontsource/abril-fatface": "^5.0.19",
@@ -19,6 +20,9 @@
     "alpinejs": "^3.13.3",
     "astro": "^4.0.4",
     "contentful": "^10.6.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
     "slug": "^8.2.3",
     "tailwindcss": "^3.3.5"
   },
