@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import portada from "../images/mini-nino/portada.webp";
+import portada from "../images/recien-nacida/portada.webp";
 import { contentfulClient } from "../lib/contentful";
 import type { Catalogue } from "../lib/contentful";
 import slug from "slug";
@@ -8,7 +8,7 @@ import Filters from "../components/filter.astro";
 
 const entries = await contentfulClient.getEntries < Catalogue > ({
     content_type: "colorins",
-    "fields.category": "mini niño"
+    "fields.category": "recien nacida"
 
 });
 
@@ -43,7 +43,7 @@ const posts = entries.items.map((item) => {
         class="portada max-w-screen-2xl mx-auto flex justify-center items-center"
     >
         <h2 class="text-white text-4xl font-semibold lg:text-8xl">
-            Junior niño
+            Recién nacida
         </h2>
     </main>
     <div>
