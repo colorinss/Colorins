@@ -11,7 +11,7 @@ import bermudaFav from "../images/home/bermuda-fav.avif";
 import gifBasics from "../images/home/ropa-nino-basics.webp";
 import gifEstampado from "../images/home/ropa-bebe.webp";
 import imageEstampado from "../images/home/ropa-bebe-estampada.webp";
-import shape from '../images/detail/form.png'
+import shape from "../images/detail/form.png";
 import "@fontsource/abril-fatface";
 
 const entries = await contentfulClient.getEntries<Catalogue>({
@@ -31,13 +31,14 @@ const posts = entries.items.map((item) => {
 		slug: slug(`${item.fields.category}-${item.fields.title}`),
 	};
 });
-
-
 ---
 
-<style define:vars={{ portada: `url("${portada.src}")`,
-shape: `url("${shape.src}")`
-}}>
+<style
+	define:vars={{
+		portada: `url("${portada.src}")`,
+		shape: `url("${shape.src}")`,
+	}}
+>
 	.portada {
 		position: relative;
 		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.3)),
@@ -53,29 +54,29 @@ shape: `url("${shape.src}")`
 		z-index: 1;
 	}
 	.shape {
-    background-image: var(--shape);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    animation: slide 55s ease-in-out infinite;
-  }
-  @keyframes slide {
-    0% {
-      transform: translateX(
-        0
-      ); /* Comienza con un desplazamiento horizontal de 0 */
-    }
-    50% {
-      transform: translateX(
-        -50%
-      ); /* Termina con un desplazamiento horizontal del 50% del ancho */
-    }
-    100% {
-      transform: translateX(
-        0
-      ); /* Termina con un desplazamiento horizontal del 50% del ancho */
-    }
-  }
+		background-image: var(--shape);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		animation: slide 55s ease-in-out infinite;
+	}
+	@keyframes slide {
+		0% {
+			transform: translateX(
+				0
+			); /* Comienza con un desplazamiento horizontal de 0 */
+		}
+		50% {
+			transform: translateX(
+				-50%
+			); /* Termina con un desplazamiento horizontal del 50% del ancho */
+		}
+		100% {
+			transform: translateX(
+				0
+			); /* Termina con un desplazamiento horizontal del 50% del ancho */
+		}
+	}
 </style>
 
 <Layout>
@@ -185,13 +186,17 @@ shape: `url("${shape.src}")`
 							posts.slice(0, 10).map((post) => (
 								<li class="mx-2 snap-center w-5/6 backdrop-blur-xl rounded-lg  relative  my-8">
 									<a href={`/posts/${post.slug}/`}>
-										<img
-											class="rounded-lg max-w-full"
-											src={
-												post.imagenes[0].fields.file.url
-											}
-											alt={post.title}
-										/>
+										{post.imagenes?.[0]?.fields?.file
+											?.url && (
+											<img
+												class="rounded-lg max-w-full"
+												src={
+													post.imagenes[0].fields.file
+														.url
+												}
+												alt={post.title}
+											/>
+										)}
 										<div class="my-2 max-w-full py-2">
 											<h2 class="font-normal">
 												{post.title}
