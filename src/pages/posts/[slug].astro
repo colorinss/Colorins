@@ -489,8 +489,8 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
                 ) as HTMLSelectElement;
                 const tallaValue = tallaElement ? tallaElement.value : "";
 
-                // Construimos el mensaje de WhatsApp con los datos del formulario
-                const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}`;
+                const urlActual = window.location.href;
+                const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}. Puedes encontrar más detalles aquí: ${urlActual}`;
 
                 // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
                 const numeroWhatsapp = "+525572188346";
