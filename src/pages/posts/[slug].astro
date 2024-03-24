@@ -25,13 +25,11 @@ export async function getStaticPaths() {
     },
   }));
   return pages;
-
-
 }
 
 const { title, price, talla, color, category, image, slug, tipoDePrenda } =
   Astro.props;
-  const categoria = category
+const categoria = category
   .map((cat) =>
     cat
       .replace(/\s+/g, "-")
@@ -383,7 +381,8 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
           <li>/</li>
           <li>
             <a class="hover:text-gray-500" href={`/${tipoDePrendas}`}
-              >{tipoDePrenda}</a>
+              >{tipoDePrenda}</a
+            >
           </li>
         </ul>
       </div>
@@ -406,12 +405,14 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
               <li>/</li>
               <li>
                 <a class="hover:text-gray-500" href={`/${categoria}`}
-                  >{category}</a>
+                  >{category}</a
+                >
               </li>
               <li>/</li>
               <li>
                 <a class="hover:text-gray-500" href={`/${tipoDePrendas}`}
-                  >{tipoDePrenda}</a>
+                  >{tipoDePrenda}</a
+                >
               </li>
             </ul>
           </div>
@@ -468,7 +469,9 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
             window.addEventListener("load", function () {
               const btnForm = document.getElementById("btnForm");
 
-              function enviarWhatsapp() {
+              function enviarWhatsapp(event) {
+                event.preventDefault(); // Evita que el formulario se envíe y la página se recargue
+
                 // Obtenemos los datos del formulario
                 const checkboxes = document.querySelectorAll<HTMLInputElement>(
                   'input[type="checkbox"]',
