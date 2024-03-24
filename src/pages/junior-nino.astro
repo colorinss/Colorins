@@ -7,8 +7,7 @@ import slug from "slug";
 
 const entries = await contentfulClient.getEntries<Catalogue>({
     content_type: "colorins",
-    "fields.category": "junior niño"
-    
+    "fields.category": "junior niño",
 });
 
 const posts = entries.items.map((item) => {
@@ -36,7 +35,7 @@ const posts = entries.items.map((item) => {
         height: 50vh;
     }
     #filters {
-        width: calc(173px * 10);
+        width: calc(170px * 11);
     }
 </style>
 
@@ -55,70 +54,77 @@ const posts = entries.items.map((item) => {
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
-                            <p>Playeras y polos</p>
+                        <a href="/junior-nino/abrigos-y-chamarras">
+                            <p>Abrigos y Chamarras</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
-                            <p>Vestidos</p>
+                        <a href="/junior-nino/sueteres">
+                            <p>Suéteres</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
-                            <p>Pantalones y faldas</p>
+                        <a href="/junior-nino/camisas">
+                            <p>Camisas</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
+                        <a href="/junior-nino/playeras">
+                            <p>Playeras</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/junior-nino/polos">
+                            <p>Polos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/junior-nino/pantalones">
+                            <p>Pantalones</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/junior-nino/conjuntos">
                             <p>Conjuntos</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
-                            <p>Pants</p>
+                        <a href="/junior-nino/sudaderas">
+                            <p>Sudaderas</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
-                            <p>Pijamas</p>
+                        <a href="/junior-nino/trajes-de-bano">
+                            <p>Trajes de Baño</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="">
-                            <p>Ropa interior</p>
-                        </a>
-                    </li>
-                    <li
-                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
-                    >
-                        <a href="">
-                            <p>Accesorios y complementos</p>
-                        </a>
-                    </li>
-                    <li
-                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
-                    >
-                        <a href="">
-                            <p>Calzado</p>
+                        <a href="/junior-nino/accesorios-y-complementos">
+                            <p>Accesorios y Complementos</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-orange-400 text-orange-400 px-6 py-2 hover:border-orange-600 hover:text-orange-600"
                     >
-                        <a href="">
+                        <a href="/junior-nina/promociones">
                             <p>🔥 Promociones</p>
                         </a>
                     </li>
@@ -171,8 +177,12 @@ const posts = entries.items.map((item) => {
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const lista = document.getElementById("lista") as HTMLElement | null; 
-                const boton = document.getElementById("boton") as HTMLButtonElement | null;
+                const lista = document.getElementById(
+                    "lista",
+                ) as HTMLElement | null;
+                const boton = document.getElementById(
+                    "boton",
+                ) as HTMLButtonElement | null;
                 let visibleCount = 10; // Inicialmente mostrar 10 elementos
 
                 // Función para cargar más elementos
