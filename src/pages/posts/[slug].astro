@@ -21,13 +21,14 @@ export async function getStaticPaths() {
       image: item.fields.imagenes,
       talla: item.fields.tallas,
       tipoDePrenda: item.fields.tipoDePrenda,
+      sku: item.fields.sku,
       slug: slug(`${item.fields.category}-${item.fields.title}`),
     },
   }));
   return pages;
 }
 
-const { title, price, talla, color, category, image, slug, tipoDePrenda } =
+const { title, price, talla, color, category, image, slug, tipoDePrenda, sku } =
   Astro.props;
 const categoria = category
   .map((cat) =>
@@ -467,7 +468,11 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
             </ul>
           </div>
           <h1 class="text-2xl md:text-3xl lg:text-4xl font-normal">{title}</h1>
-          <h3 class="capitalize">{category}</h3>
+          <div class="flex items-end space-x-2">
+            <h3 class="capitalize">{category}</h3>
+            <p class="text-gray-400">|</p>
+            <p class="text-gray-400">sku: {sku}</p>
+          </div>
           <div class="price flex font-semibold mt-5">
             <p>$</p>
             <p>{price}</p>

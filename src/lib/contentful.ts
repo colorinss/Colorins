@@ -1,4 +1,4 @@
-import contentful, { EntryFieldTypes } from "contentful";
+import contentful, { Entry, EntryFieldTypes } from "contentful";
 
 export interface Catalogue {
     contentTypeId:"colorins",
@@ -11,6 +11,7 @@ export interface Catalogue {
         tallas: EntryFieldTypes.Text,
         price: EntryFieldTypes.Number,
         outlet: EntryFieldTypes.Number,
+        sku: EntryFieldTypes.Text,
         imagenes: EntryFieldTypes.AssetLink,
     }
 }
