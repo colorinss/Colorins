@@ -112,6 +112,56 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
     border-radius: 50%;
     background-color: rgb(253, 143, 0);
   }
+  .rosa {
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxrosa {
+    position: absolute;
+  }
+  .rosa::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(235, 114, 187);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .rosa::before {
+    border-radius: 50%;
+    background-color: rgb(235, 114, 187);
+  }
+  .fucsia {
+    display: inline-block;
+    height: 20px;
+    position: relative;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  .checkboxfucsia {
+    position: absolute;
+  }
+  .fucsia::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: solid 2px rgb(255, 0, 255);
+    border-radius: 50%;
+  }
+  input[type="checkbox"]:checked + .fucsia::before {
+    border-radius: 50%;
+    background-color: rgb(255, 0, 255);
+  }
   .azul {
     display: inline-block;
     height: 20px;
