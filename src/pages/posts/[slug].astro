@@ -50,9 +50,13 @@ const tipoDePrendas = tipoDePrenda
   .join("-");
 
 console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
+const totalImageWidth = 37;
+const totalWidth = totalImageWidth * image.length ;
 ---
 
-<style define:vars={{ shape: `url("${shape.src}")` }}>
+<style define:vars={{ 
+  shape: `url("${shape.src}")`,
+  }}>
   label {
     margin-left: 0; /* Establecer margen izquierdo a 0 */
   }
@@ -438,197 +442,200 @@ console.log("Valores de category y tipoDePrenda:", categoria, tipoDePrendas);
         </ul>
       </div>
       <div class="basis-1/2">
+        <div class="overflow-hidden h-[750px] w-full rounded-lg">
         {
           image && image.length > 0 && image[0].fields && (
             <img
-              class="rounded mx-auto"
+              class=" mx-auto object-cover h-full w-full rounded-lg"
               src={image[0].fields.file.url}
               alt=""
             />
           )
         }
       </div>
-      <div class="basis-1/2 flex flex-col justify-between">
-        <div class="px-4 md:px-10 mt-2">
-          <div class="hidden lg:block">
-            <ul class="flex space-x-2 text-sm mb-2 text-gray-400">
-              <li><a class="hover:text-gray-500" href="/">Inicio</a></li>
-              <li>/</li>
-              <li>
-                <a class="hover:text-gray-500" href={`/${categoria}`}
-                  >{category}</a
-                >
-              </li>
-              <li>/</li>
-              <li>
-                <a class="hover:text-gray-500" href={`/${tipoDePrendas}`}
-                  >{tipoDePrenda}</a
-                >
-              </li>
-            </ul>
-          </div>
-          <h1 class="text-2xl md:text-3xl lg:text-4xl font-normal">{title}</h1>
-          <div class="flex items-end space-x-2">
-            <h3 class="capitalize">{category}</h3>
-            <p class="text-gray-400">|</p>
-            <p class="text-gray-400">sku: {sku}</p>
-          </div>
-          <div class="price flex font-semibold mt-5">
-            <p>$</p>
-            <p>{price}</p>
-            <p>mxn</p>
-          </div>
-          <form id="miFormulario" action="">
-            <div class="flex justify-start">
-              {
-                color.map((colorItem, index) => (
-                  <>
-                    <input
-                      type="checkbox"
-                      value={colorItem}
-                      id={"id" + colorItem}
-                      name="color"
-                      class={"checkbox" + colorItem}
-                      checked={index === 0 ? index : false}
-                    />
-                    <label for={"id" + colorItem} class={colorItem} />
-                  </>
-                ))
-              }
-            </div>
-            <div class="mt-5">
-              <select
-                value={talla}
-                name="tallas"
-                id="tallas"
-                class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent appearance-none border-0 border-y-2 border-gray-200 dark:text-gray-400 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+    </div>
+    <div class="basis-1/2 flex flex-col justify-between">
+      <div class="px-4 md:px-10 mt-2">
+        <div class="hidden lg:block">
+          <ul class="flex space-x-2 text-sm mb-2 text-gray-400">
+            <li><a class="hover:text-gray-500" href="/">Inicio</a></li>
+            <li>/</li>
+            <li>
+              <a class="hover:text-gray-500" href={`/${categoria}`}
+                >{category}</a
               >
-                {
-                  talla &&
-                    talla.length > 0 &&
-                    talla.map((opcion) => (
-                      <option value={opcion} class="bg-white">
-                        {opcion}
-                      </option>
-                    ))
-                }
-              </select>
-            </div>
-            <button
-              class="px-4 py-4 mt-4 mb-4 lg:mb-1 bg-gray-100 text-gray-500 rounded hover:ring-1 hover:ring-gray-200 transition-all delay-100 w-full"
-              type="button"
-              id="btnForm">Comprar ahora por WhatsApp</button
+            </li>
+            <li>/</li>
+            <li>
+              <a class="hover:text-gray-500" href={`/${tipoDePrendas}`}
+                >{tipoDePrenda}</a
+              >
+            </li>
+          </ul>
+        </div>
+        <h1 class="text-2xl md:text-3xl lg:text-4xl font-normal">{title}</h1>
+        <div class="flex items-end space-x-2">
+          <h3 class="capitalize">{category}</h3>
+          <p class="text-gray-400">|</p>
+          <p class="text-gray-400">sku: {sku}</p>
+        </div>
+        <div class="price flex font-semibold mt-5">
+          <p>$</p>
+          <p>{price}</p>
+          <p>mxn</p>
+        </div>
+        <form id="miFormulario" action="">
+          <div class="flex justify-start">
+            {
+              color.map((colorItem, index) => (
+                <>
+                  <input
+                    type="checkbox"
+                    value={colorItem}
+                    id={"id" + colorItem}
+                    name="color"
+                    class={"checkbox" + colorItem}
+                    checked={index === 0 ? index : false}
+                  />
+                  <label for={"id" + colorItem} class={colorItem} />
+                </>
+              ))
+            }
+          </div>
+          <div class="mt-5">
+            <select
+              value={talla}
+              name="tallas"
+              id="tallas"
+              class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent appearance-none border-0 border-y-2 border-gray-200 dark:text-gray-400 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
             >
-          </form>
-          <script>
-            window.addEventListener("load", function () {
-              const btnForm = document.getElementById("btnForm");
-
-              function enviarWhatsapp(event) {
-                event.preventDefault(); // Evita que el formulario se envíe y la página se recargue
-
-                // Obtenemos los datos del formulario
-                const checkboxes = document.querySelectorAll<HTMLInputElement>(
-                  'input[type="checkbox"]',
-                );
-                let colorValue = "";
-
-                checkboxes.forEach((checkbox) => {
-                  if (checkbox.checked) {
-                    colorValue = checkbox.value;
-                  }
-                });
-
-                const tallaElement = document.getElementById(
-                  "tallas",
-                ) as HTMLSelectElement;
-                const tallaValue = tallaElement ? tallaElement.value : "";
-
-                const urlActual = window.location.href;
-                const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}. Puedes encontrar más detalles aquí: ${urlActual}`;
-
-                // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
-                const numeroWhatsapp = "+527712456654";
-
-                // Construimos el enlace de WhatsApp con el mensaje
-                const enlaceWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
-
-                // Redirigimos a WhatsApp
-                window.location.href = enlaceWhatsapp;
+              {
+                talla &&
+                  talla.length > 0 &&
+                  talla.map((opcion) => (
+                    <option value={opcion} class="bg-white">
+                      {opcion}
+                    </option>
+                  ))
               }
+            </select>
+          </div>
+          <button
+            class="px-4 py-4 mt-4 mb-4 lg:mb-1 bg-gray-100 text-gray-500 rounded hover:ring-1 hover:ring-gray-200 transition-all delay-100 w-full"
+            type="button"
+            id="btnForm">Comprar ahora por WhatsApp</button
+          >
+        </form>
+        <script>
+          window.addEventListener("load", function () {
+            const btnForm = document.getElementById("btnForm");
 
-              btnForm.addEventListener("click", enviarWhatsapp);
+            function enviarWhatsapp(event) {
+              event.preventDefault(); // Evita que el formulario se envíe y la página se recargue
 
-              function handleCheckboxChange(event: Event) {
-                // Obtiene todos los checkboxes
-                const checkboxes = document.querySelectorAll<HTMLInputElement>(
-                  'input[type="checkbox"]',
-                );
-
-                // Deselecciona todos los checkboxes excepto el actual
-                checkboxes.forEach((checkbox) => {
-                  if (checkbox !== event.target) {
-                    checkbox.checked = false; // Deselecciona el checkbox si no es el actual
-                  }
-                });
-              }
-
-              // Agrega el event listener a cada checkbox
+              // Obtenemos los datos del formulario
               const checkboxes = document.querySelectorAll<HTMLInputElement>(
                 'input[type="checkbox"]',
               );
+              let colorValue = "";
+
               checkboxes.forEach((checkbox) => {
-                checkbox.addEventListener("click", handleCheckboxChange);
+                if (checkbox.checked) {
+                  colorValue = checkbox.value;
+                }
               });
+
+              const tallaElement = document.getElementById(
+                "tallas",
+              ) as HTMLSelectElement;
+              const tallaValue = tallaElement ? tallaElement.value : "";
+
+              const urlActual = window.location.href;
+              const mensaje = `Me interesa esta prenda en color ${colorValue} y en talla ${tallaValue}. Puedes encontrar más detalles aquí: ${urlActual}`;
+
+              // Reemplaza 'tu_numero_de_whatsapp' con tu número de WhatsApp
+              const numeroWhatsapp = "+527712456654";
+
+              // Construimos el enlace de WhatsApp con el mensaje
+              const enlaceWhatsapp = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
+
+              // Redirigimos a WhatsApp
+              window.location.href = enlaceWhatsapp;
+            }
+
+            btnForm.addEventListener("click", enviarWhatsapp);
+
+            function handleCheckboxChange(event: Event) {
+              // Obtiene todos los checkboxes
+              const checkboxes = document.querySelectorAll<HTMLInputElement>(
+                'input[type="checkbox"]',
+              );
+
+              // Deselecciona todos los checkboxes excepto el actual
+              checkboxes.forEach((checkbox) => {
+                if (checkbox !== event.target) {
+                  checkbox.checked = false; // Deselecciona el checkbox si no es el actual
+                }
+              });
+            }
+
+            // Agrega el event listener a cada checkbox
+            const checkboxes = document.querySelectorAll<HTMLInputElement>(
+              'input[type="checkbox"]',
+            );
+            checkboxes.forEach((checkbox) => {
+              checkbox.addEventListener("click", handleCheckboxChange);
             });
-          </script>
-        </div>
-        <div class="flex px-4 md:px-10">
-          <div class="overflow-x-scroll snap-x snap-mandatory">
-            <div class="w-[150%] flex space-x-3">
-              {
-                image &&
-                  image.length > 0 &&
-                  image.slice(1).map((imageItem, index) => (
-                    <div
-                      class="snap-center item"
-                      style={`--num-images: ${image.length}`}
-                    >
+          });
+        </script>
+      </div>
+      <div class="flex px-4 md:px-10">
+        <div class="overflow-x-scroll snap-x snap-mandatory">
+          <div class="ancho-scroll" style={{ '--totalWidth': `${totalWidth}%`, width: 'var(--totalWidth)' }}>
+            <ul class="flex space-x-3">
+              {image &&
+                image.length > 0 &&
+                image.slice(1).map((imageItem, index) => (
+                  <li
+                    class="snap-center item"
+                    style={{ '--num-images': image.length }} 
+                  >
+                    <div class="overflow-hidden w-full h-96">
                       <img
-                        class="rounded mx-auto"
+                        class="rounded mx-auto object-cover h-full w-full"
                         src={imageItem.fields.file.url}
-                        alt=""
+                        alt={title}
                       />
                     </div>
-                  ))
-              }
-            </div>
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <section class="py-6 relative h-[40vh] overflow-hidden">
-    <div
-      class="absolute inset-0 bottom-0 z-10 flex flex-col justify-center items-center"
-    >
-      <!-- Este div es para la animación -->
-      <div class="content-container flex flex-col lg:flex lg:flex-row">
-        <h3 class="text-white/90 text-2xl md:text-4xl text-center">
-          Descubre las mejores promociones
-        </h3>
-        <a
-          href={`/${categoria}-promociones`}
-          class="bg-violet-100 rounded-full px-4 mx-8 lg:mx-4 lg:my-auto py-2 text-center my-2 text-indigo-900 hover:ring-indigo-100 hover:ring-1 hover:backdrop-blur"
-          >Ir a las promociones</a
-        >
-      </div>
-    </div>
-    <div class="shape w-[200%] h-[35vh] flex items-center justify-center">
-      <div></div>
-    </div>
-  </section>
-  <section>
-    <Posts />
-  </section>
 </Layout>
+<section class="py-6 relative h-[40vh] overflow-hidden">
+  <div
+    class="absolute inset-0 bottom-0 z-10 flex flex-col justify-center items-center"
+  >
+    <!-- Este div es para la animación -->
+    <div class="content-container flex flex-col lg:flex lg:flex-row">
+      <h3 class="text-white/90 text-2xl md:text-4xl text-center">
+        Descubre las mejores promociones
+      </h3>
+      <a
+        href={`/${categoria}-promociones`}
+        class="bg-violet-100 rounded-full px-4 mx-8 lg:mx-4 lg:my-auto py-2 text-center my-2 text-indigo-900 hover:ring-indigo-100 hover:ring-1 hover:backdrop-blur"
+        >Ir a las promociones</a
+      >
+    </div>
+  </div>
+  <div class="shape w-[200%] h-[35vh] flex items-center justify-center">
+    <div></div>
+  </div>
+</section>
+<section>
+  <Posts />
+</section>

@@ -79,7 +79,10 @@ const posts = entries.items.map((item) => {
 	}
 </style>
 
-<Layout title="Colorins la mejor tienda de ropa para niños y niñas" description="Encuentra los mejores outfits para tus pequeños">
+<Layout
+	title="Colorins la mejor tienda de ropa para niños y niñas"
+	description="Encuentra los mejores outfits para tus pequeños"
+>
 	<main class="portada flex justify-center items-end">
 		<div class="">
 			<h2
@@ -180,22 +183,24 @@ const posts = entries.items.map((item) => {
 				Encuetra los mejores outfits
 			</p>
 			<div class="overflow-x-scroll span-x span-mandatory">
-				<div class="w-[600vw] lg:w-[240vw]">
+				<div class="max-w-full lg:max-w-screen-lg">
 					<ul class="flex">
 						{
 							posts.slice(0, 10).map((post) => (
-								<li class="mx-2 snap-center w-5/6 backdrop-blur-xl rounded-lg  relative  my-8">
+								<li class="snap-center mx-2 backdrop-blur-xl rounded-lg  relative  my-8">
 									<a href={`/posts/${post.slug}/`}>
 										{post.imagenes?.[0]?.fields?.file
 											?.url && (
-											<img
-												class="rounded-lg max-w-full"
-												src={
-													post.imagenes[0].fields.file
-														.url
-												}
-												alt={post.title}
-											/>
+											<div class="rounded-lg overflow-hidden h-96 w-72">
+												<img
+													class="w-full rounded-lg  h-full object-cover"
+													src={
+														post.imagenes[0].fields
+															.file.url
+													}
+													alt={post.title}
+												/>
+											</div>
 										)}
 										<div class="my-2 max-w-full py-2">
 											<h2 class="font-normal">

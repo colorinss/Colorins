@@ -6,8 +6,8 @@ import slug from "slug";
 
 const entries = await contentfulClient.getEntries<Catalogue>({
     content_type: "colorins",
-    "fields.category": "mini niña",
-    "fields.tipoDePrenda": "playeras y polos",
+    "fields.category": "baby niña",
+    "fields.tipoDePrenda": "shorts",
 });
 
 const posts = entries.items.map((item) => {
@@ -34,44 +34,39 @@ const posts = entries.items.map((item) => {
     };
 });
 
-const categoria = posts
-    .map(
-        (post) =>
-            Array.isArray(post.category) // Verificar si es un arreglo
-                ? post.category
-                      .map((cat) =>
-                          cat
-                              .replace(/\s+/g, "-")
-                              .normalize("NFD")
-                              .replace(/[\u0300-\u036f]/g, "")
-                              .toLowerCase(),
-                      )
-                      .join("-")
-                : "", // Si no es un arreglo, devolver una cadena vacía
-    )
-    .join("-");
-
-const tipoDePrendas = posts
-    .map(
-        (post) =>
-            Array.isArray(post.tipoDePrenda) // Verificar si es un arreglo
-                ? post.tipoDePrenda
-                      .map((prenda) =>
-                          prenda
-                              .replace(/\s+/g, "-")
-                              .normalize("NFD")
-                              .replace(/[\u0300-\u036f]/g, "")
-                              .toLowerCase(),
-                      )
-                      .join("-")
-                : "", // Si no es un arreglo, devolver una cadena vacía
-    )
-    .join("-");
+const categoria =
+    posts.length > 0 &&
+    Array.isArray(posts[0].category) &&
+    posts[0].category.length > 0
+        ? posts[0].category
+              .map((cat) =>
+                  cat
+                      .replace(/\s+/g, "-")
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .toLowerCase(),
+              )
+              .join("-")
+        : "";
+const tipoDePrendas =
+    posts.length > 0 &&
+    Array.isArray(posts[0].tipoDePrenda) &&
+    posts[0].tipoDePrenda.length > 0
+        ? posts[0].tipoDePrenda
+              .map((prenda) =>
+                  prenda
+                      .replace(/\s+/g, "-")
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .toLowerCase(),
+              )
+              .join("-")
+        : "";
 ---
 
 <style define:vars="">
     #filters {
-        width: calc(182px * 14);
+        width: calc(182px * 15);
     }
 </style>
 
@@ -79,46 +74,46 @@ const tipoDePrendas = posts
     <main
         class="portada max-w-screen-2xl mx-auto flex justify-center items-center"
     >
-        {
-            posts.map((post) => (
-                <div class="flex flex-col justify-center items-center">
-                    <div>
-                        <div class="mx-auto mb-2 mt-10">
-                            <ul class="flex space-x-2 justify-center text-sm mb-2 text-gray-400">
-                                <li>
-                                    <a class="hover:text-gray-500" href="/">
-                                        Inicio
-                                    </a>
-                                </li>
-                                <li>/</li>
-                                <li>
-                                    <a
-                                        class="hover:text-gray-500"
-                                        href={`/${categoria}`}
-                                    >
-                                        {categoria}
-                                    </a>
-                                </li>
-                                <li>/</li>
-                                <li>
-                                    <a
-                                        class="hover:text-gray-500"
-                                        href={`/${categoria}/${tipoDePrendas}`}
-                                    >
-                                        {tipoDePrendas}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="flex flex-col justify-center items-center">
+            <div>
+                <div class="mx-auto mb-2 mt-10">
+                    <ul
+                        class="flex space-x-2 justify-center text-sm mb-2 text-gray-400"
+                    >
+                        <li>
+                            <a class="hover:text-gray-500" href="/"> Inicio </a>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <a
+                                class="hover:text-gray-500"
+                                href={`/${categoria}`}
+                            >
+                                {categoria}
+                            </a>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <a
+                                class="hover:text-gray-500"
+                                href={`/${categoria}/${tipoDePrendas}`}
+                            >
+                                {tipoDePrendas}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {
+                posts.length > 0 && (
                     <div>
                         <h2 class="text-4xl font-medium lg:text-4xl  text-center mt-4 lg:mt-0 capitalize pb-6">
-                            {post.tipoDePrenda}
+                            {posts[0].tipoDePrenda}
                         </h2>
                     </div>
-                </div>
-            ))
-        }
+                )
+            }
+        </div>
     </main>
     <section>
         <div class="max-w-screen-2xl mx-auto">
@@ -127,92 +122,99 @@ const tipoDePrendas = posts
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/abrigos-y-chamarras">
-                            <p>Abrigos y Chamarras</p>
-                        </a>
-                    </li>
-                    <li
-                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
-                    >
-                        <a href="/mini-nina/toreras">
-                            <p>Toreras</p>
-                        </a>
-                    </li>
-                    <li
-                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
-                    >
-                        <a href="/mini-nina/vestidos">
+                        <a href="/baby-nina/vestidos">
                             <p>Vestidos</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/monos">
-                            <p>Monos</p>
+                        <a href="/baby-nina/trajes-de-bano">
+                            <p>Trajes de baño</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/conjuntos">
-                            <p>Conjuntos</p>
+                        <a href="/baby-nina/toreras">
+                            <p>Toreras</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/playeras-y-polos">
-                            <p>Playeras y Polos</p>
+                        <a href="/baby-nina/sueteres-y-sudaderas">
+                            <p>Suéteres y sudaderas</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/blusas">
-                            <p>Blusas</p>
+                        <a href="/baby-nina/shorts">
+                            <p>Shorts</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/pantalones-y-faldas">
-                            <p>Pantalones y Faldas</p>
+                        <a href="/baby-nina/polos">
+                            <p>Polos</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/sueteres-y-sudaderas">
-                            <p>Suéteres y Sudaderas</p>
-                        </a>
-                    </li>
-                    <li
-                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
-                    >
-                        <a href="/mini-nina/pants">
+                        <a href="/baby-nina/pants">
                             <p>Pants</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/trajes-de-bano-y-bikinis">
-                            <p>Trajes de Baño y Bikinis</p>
+                        <a href="/baby-nina/pantalones-y-petos">
+                            <p>Pantalones y petos</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/ropa-interior">
-                            <p>Ropa Interior</p>
+                        <a href="/baby-nina/faldas-y-monos">
+                            <p>Faldas y monos</p>
                         </a>
                     </li>
                     <li
                         class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
                     >
-                        <a href="/mini-nina/accesorios-y-complementos">
+                        <a href="/baby-nina/conjuntos">
+                            <p>Conjuntos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/baby-nina/camisas-y-blusas">
+                            <p>Camisas y blusas</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/baby-nina/bodies-y-playeras">
+                            <p>Bodies y playeras</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/baby-nina/accesorios-y-complementos">
                             <p>Accesorios y Complementos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/baby-nina/abrigos-y-chamarras">
+                            <p>Abrigos y chamarras</p>
                         </a>
                     </li>
                     <li
@@ -237,11 +239,13 @@ const tipoDePrendas = posts
                     posts.map((post) => (
                         <li class="my-3 snap-center w-1/2 md:w-1/3 lg:w-1/6 px-2">
                             <a href={`/posts/${post.slug}/`}>
-                                <img
-                                    class="rounded-md max-w-full"
-                                    src={post.imagenes[0].fields.file.url}
-                                    alt={post.title}
-                                />
+                                <div class="overflow-hidden  h-96 inline-block">
+                                    <img
+                                        class="rounded-md w-full h-full object-cover"
+                                        src={post.imagenes[0].fields.file.url}
+                                        alt={post.title}
+                                    />
+                                </div>
                                 <div class="my-2 max-w-full">
                                     <h2 class="font-normal">{post.title}</h2>
                                     <div class="text-gray-500">

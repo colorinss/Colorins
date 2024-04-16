@@ -1,0 +1,320 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { contentfulClient } from "../../lib/contentful";
+import type { Catalogue } from "../../lib/contentful";
+import slug from "slug";
+
+const entries = await contentfulClient.getEntries<Catalogue>({
+    content_type: "colorins",
+    "fields.category": "mini niño",
+    "fields.tipoDePrenda": "shorts",
+});
+
+const posts = entries.items.map((item) => {
+    const {
+        category,
+        title,
+        color,
+        tallas,
+        price,
+        id,
+        imagenes,
+        tipoDePrenda,
+    } = item.fields;
+    return {
+        category,
+        title,
+        color,
+        tallas,
+        price,
+        id,
+        imagenes,
+        tipoDePrenda,
+        slug: slug(`${item.fields.category}-${item.fields.title}`),
+    };
+});
+
+const categoria =
+    posts.length > 0 && Array.isArray(posts[0].category) && posts[0].category.length > 0
+        ? posts[0].category
+              .map((cat) =>
+                  cat
+                      .replace(/\s+/g, "-")
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .toLowerCase(),
+              )
+              .join("-")
+        : "";
+const tipoDePrendas =
+    posts.length > 0 &&
+    Array.isArray(posts[0].tipoDePrenda) &&
+    posts[0].tipoDePrenda.length > 0
+        ? posts[0].tipoDePrenda
+              .map((prenda) =>
+                  prenda
+                      .replace(/\s+/g, "-")
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "")
+                      .toLowerCase(),
+              )
+              .join("-")
+        : "";
+---
+
+<style define:vars="">
+    #filters {
+        width: calc(177px * 13);
+    }
+</style>
+
+<Layout>
+    <main
+        class="portada max-w-screen-2xl mx-auto flex justify-center items-center"
+    >
+        <div class="flex flex-col justify-center items-center">
+            <div>
+                <div class="mx-auto mb-2 mt-10">
+                    <ul
+                        class="flex space-x-2 justify-center text-sm mb-2 text-gray-400"
+                    >
+                        <li>
+                            <a class="hover:text-gray-500" href="/"> Inicio </a>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <a
+                                class="hover:text-gray-500"
+                                href={`/${categoria}`}
+                            >
+                                {categoria}
+                            </a>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <a
+                                class="hover:text-gray-500"
+                                href={`/${categoria}/${tipoDePrendas}`}
+                            >
+                                {tipoDePrendas}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {
+                posts.length > 0 && (
+                    <div>
+                        <h2 class="text-4xl font-medium lg:text-4xl  text-center mt-4 lg:mt-0 capitalize pb-6">
+                            {posts[0].tipoDePrenda}
+                        </h2>
+                    </div>
+                )
+            }
+        </div>
+    </main>
+    <section>
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="overflow-x-scroll snap-x snap-mandatory py-4">
+                <ul class="flex space-x-4 mx-2" id="filters">
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/abrigos-y-chamarras">
+                            <p>Abrigos y Chamarras</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/toreras">
+                            <p>Toreras</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/vestidos">
+                            <p>Vestidos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/monos">
+                            <p>Monos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/conjuntos">
+                            <p>Conjuntos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/playeras-y-polos">
+                            <p>Playeras y Polos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/blusas">
+                            <p>Blusas</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/pantalones-y-faldas">
+                            <p>Pantalones y Faldas</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/sueteres-y-sudaderas">
+                            <p>Suéteres y Sudaderas</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/pants">
+                            <p>Pants</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/trajes-de-bano-y-bikinis">
+                            <p>Trajes de Baño y Bikinis</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/ropa-interior">
+                            <p>Ropa Interior</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-gray-300 px-6 py-2 hover:border-gray-500 hover:text-gray-500 text-gray-400"
+                    >
+                        <a href="/mini-nina/accesorios-y-complementos">
+                            <p>Accesorios y Complementos</p>
+                        </a>
+                    </li>
+                    <li
+                        class="border rounded-full border-orange-400 text-orange-400 px-6 py-2 hover:border-orange-600 hover:text-orange-600"
+                    >
+                        <a href="/mini-nina/promociones">
+                            <p>🔥 Promociones</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="max-w-screen-2xl mx-auto">
+        <div class="mx-auto">
+            <ul
+                id="lista"
+                class="flex flex-wrap justify-start mx-0"
+                style="overflow-x: hidden;"
+            >
+                {
+                    posts.map((post) => (
+                        <li class="my-3 snap-center w-1/2 md:w-1/3 lg:w-1/6 px-2">
+                            <a href={`/posts/${post.slug}/`}>
+                                <div class="overflow-hidden  h-96 inline-block">
+                                    <img
+                                        class="rounded-md w-full h-full object-cover"
+                                        src={post.imagenes[0].fields.file.url}
+                                        alt={post.title}
+                                    />
+                                </div>
+                                <div class="my-2 max-w-full">
+                                    <h2 class="font-normal">{post.title}</h2>
+                                    <div class="text-gray-500">
+                                        <div class="flex space-x-1">
+                                            <p>$</p>
+                                            <p class="">{post.price}</p>
+                                            <p>mxn</p>
+                                            <p>&rarr;</p>
+                                        </div>
+                                        <p class="capitalize text-xs">
+                                            {post.category}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        <div class="flex justify-center pb-20">
+            <button
+                id="boton"
+                class="px-12 bg-yellow-400 py-2 rounded-full text-white hover:bg-yellow-300 transition-all delay-100"
+                >Ver más</button
+            >
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const lista = document.getElementById(
+                    "lista",
+                ) as HTMLElement | null;
+                const boton = document.getElementById(
+                    "boton",
+                ) as HTMLButtonElement | null;
+
+                let visibleCount = 10; // Inicialmente mostrar 10 elementos
+
+                // Función para cargar más elementos
+
+                const handleLoadMore = () => {
+                    // Agregar 10 elementos más al contador
+                    visibleCount += 10;
+                    // Renderizar los elementos actualizados
+                    render();
+                };
+
+                // Función para renderizar los elementos
+                const render = () => {
+                    // Verificar si lista y boton son nulos antes de acceder a sus propiedades
+                    if (lista && boton) {
+                        // Mostrar solo los primeros 'visibleCount' elementos
+                        const lis = lista.querySelectorAll("li");
+                        lis.forEach((li, index) => {
+                            if (index < visibleCount) {
+                                li.style.display = "block";
+                            } else {
+                                li.style.display = "none";
+                            }
+                        });
+
+                        if (visibleCount >= lis.length) {
+                            boton.style.display = "none";
+                        } else {
+                            boton.style.display = "block";
+                        }
+                    }
+                    // Mostrar botón "Ver más" solo si hay más elementos para cargar
+                };
+
+                // Agregar evento de clic al botón
+                if (boton) {
+                    boton.addEventListener("click", handleLoadMore);
+                }
+
+                // Llamar a la función render inicialmente
+                render();
+            });
+        </script>
+    </div>
+</Layout>
